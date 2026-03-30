@@ -511,7 +511,13 @@
       .row-pair { grid-template-columns: 1fr; gap: 1.25rem; }
       .row-trio { grid-template-columns: 1fr; gap: 1.25rem; }
       .input-narrow { max-width: 100%; }
-      #areaMapContainer { display: none; }
+      #areaMapContainer { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      #areaMapContainer svg { width: 900px; min-width: 900px; }
+      .nbhd-area-heading { flex-wrap: wrap; gap: 0.4rem; }
+      .map-hint-text { display: none; }
+      .nbhd-map-btn { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+      .form-select { font-size: 0.875rem; }
+      #searchType { max-width: 100% !important; }
     }
 
     /* â”€â”€ Interactive Area Map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -829,6 +835,7 @@
        width="5994.6665"
        height="2949.3333"
        preserveAspectRatio="none"
+       href="Compressed Maps/Full_Map_PNG.png"
        xlink:href="Compressed Maps/Full_Map_PNG.png"
        id="image1" />
     <path
