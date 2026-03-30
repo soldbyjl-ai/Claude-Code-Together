@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Search Criteria</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: url('Compressed Maps/banner.jpg') center top / cover fixed;
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 2.5rem 1rem 4rem;
+    }
+
+    /* ── Card Form Title ─────────────────────────────────── */
+    .card-form-title {
+      padding: 2rem 2.5rem 1.75rem;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .card-form-title h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .card-form-title p {
+      color: #64748b;
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    /* ── Card ────────────────────────────────────────────── */
+    .form-card {
+      max-width: 864px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 6px 24px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    /* ── Sections ────────────────────────────────────────── */
+    .form-section {
+      padding: 2rem 2.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .form-section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #1e293b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+    }
+
+    .doc-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .doc-links a {
+      color: #1d4ed8;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+    .doc-links a:hover { color: #1e40af; }
+
+    .field-divider {
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      margin: 1.5rem 0;
+    }
+
+    /* ── Field rows ──────────────────────────────────────── */
+    .form-row { margin-bottom: 1.25rem; }
+    .form-row:last-child { margin-bottom: 0; }
+
+    .row-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    .row-pair .form-row { margin-bottom: 0; }
+
+    .row-trio {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    .row-trio .form-row { margin-bottom: 0; }
+
+    .sub-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+
+    /* ── Labels ──────────────────────────────────────────── */
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 0.375rem;
+    }
+    .req { color: #ef4444; margin-left: 2px; }
+    .label-highlight {
+      display: inline-block;
+      background: #eff6ff;
+      color: #1e40af;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 0.35rem;
+      border-left: 3px solid #3b82f6;
+      margin-bottom: 0.75rem;
+    }
+
+    .field-note {
+      display: block;
+      font-size: 0.775rem;
+      color: #94a3b8;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      line-height: 1.45;
+    }
+    .kitchen-warning {
+      font-size: 0.775rem;
+      color: #92400e;
+      font-style: italic;
+      margin-top: 0.625rem;
+      line-height: 1.5;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────── */
+    .form-input,
+    .form-select {
+      width: 100%;
+      height: 42px;
+      padding: 0 0.875rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      color: #1e293b;
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input::placeholder { color: #cbd5e1; }
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+    .form-input.is-invalid,
+    .form-select.is-invalid { border-color: #ef4444; }
+    .form-input.is-invalid:focus,
+    .form-select.is-invalid:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12); }
+
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.25rem;
+      cursor: pointer;
+    }
+
+    .input-narrow { max-width: 220px; }
+
+    /* ── Checkboxes ──────────────────────────────────────── */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
+    .checkbox-group.is-invalid .checkbox-pill { border-color: #ef4444; }
+
+    .checkbox-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.875rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .checkbox-pill:hover { border-color: #93c5fd; background: #eff6ff; }
+    .checkbox-pill input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: #3b82f6;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .checkbox-pill span { font-size: 0.875rem; color: #334155; font-weight: 500; }
+    .checkbox-pill:has(input:checked) {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+    .checkbox-pill:has(input:checked) span { color: #1d4ed8; }
+
+    /* ── Errors ──────────────────────────────────────────── */
+    .error-text {
+      display: block;
+      font-size: 0.78rem;
+      color: #ef4444;
+      margin-top: 0.3rem;
+      min-height: 1rem;
+    }
+
+    /* ── Conditional sections ────────────────────────────── */
+    .conditional-section { display: none; }
+    .conditional-section.visible { display: block; }
+
+    /* ── Success banner ──────────────────────────────────── */
+    .success-banner {
+      display: none;
+      margin: 1.5rem 2.5rem 0;
+      padding: 1rem 1.25rem;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      color: #16a34a;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .success-banner.visible { display: flex; align-items: center; gap: 0.625rem; }
+    .success-banner svg { flex-shrink: 0; }
+
+    /* ── Branding Footer ─────────────────────────────────── */
+    .branding-footer {
+      border-top: 1px solid #e2e8f0;
+    }
+    .branding-footer img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Actions ─────────────────────────────────────────── */
+    .form-actions {
+      padding: 1.5rem 2.5rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.975rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-submit:hover { background: #1d4ed8; }
+    .btn-submit:active { background: #1e40af; transform: translateY(1px); }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    .consent-label input[type="checkbox"] {
+      margin-top: 0.2rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      flex-shrink: 0;
+      accent-color: #1d4ed8;
+      cursor: pointer;
+    }
+    .consent-label span {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    /* ── Neighbourhood Section ───────────────────────────────── */
+    .nbhd-panel { display: none; margin-top: 1.25rem; }
+    .nbhd-panel.visible { display: block; }
+
+    .map-instruction {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    .pdf-viewer-container {
+      border-radius: 8px;
+      border: 1.5px solid #e2e8f0;
+      overflow: hidden;
+      margin: 0.875rem 0;
+      background: #f8fafc;
+    }
+    .pdf-viewer-container img { width: 100%; height: auto; display: block; }
+
+    .form-textarea {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      color: #1e293b;
+      background: #fff;
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+
+    .area-group { margin-bottom: 1.25rem; }
+    .area-group:last-child { margin-bottom: 0; }
+    .area-group-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      background: #1e3a5f;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      padding: 0.45rem 0.875rem;
+      border-radius: 0.35rem;
+      display: block;
+    }
+
+    /* Panel B — section intro note */
+    .nbhd-section-intro {
+      font-size: 0.8rem;
+      color: #1e40af;
+      margin: 0.25rem 0 1rem;
+      padding-top: 0.875rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* Panel B — neighbourhood groups hidden until area is selected */
+    #nbhdCheckboxGroup .area-group { display: none; }
+    #nbhdCheckboxGroup .area-group.visible { display: block; }
+    #nbhdCheckboxGroup .nbhd-area-block { display: none; }
+    #nbhdCheckboxGroup .nbhd-area-block.visible { display: block; }
+
+    /* Panel B — neighbourhood area sub-groups */
+    .nbhd-area-block { margin-bottom: 1rem; }
+    .nbhd-area-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 0.4rem;
+    }
+    .nbhd-map-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.875rem;
+      border: 1.5px solid #14b8a6;
+      border-radius: 0.4rem;
+      background: #f0fdfa;
+      cursor: pointer;
+      color: #0f766e;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .nbhd-map-btn:hover { background: #14b8a6; border-color: #0f766e; color: #fff; }
+    .nbhd-area-heading .label-highlight { margin-bottom: 0; align-self: center; background: #1e3a5f; color: #fff; border-left-color: #1e3a5f; }
+    .map-hint-text { font-size: 0.75rem; color: #64748b; font-style: italic; align-self: center; }
+    .btn-select-all {
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 0.3rem 0.875rem;
+      border: 1.5px solid #16a34a;
+      border-radius: 0.4rem;
+      background: #f0fdf4;
+      color: #15803d;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-select-all:hover { background: #16a34a; color: #fff; }
+    .btn-clear-search {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.875rem;
+      border: 1.5px solid #fca5a5;
+      border-radius: 7px;
+      background: #fff5f5;
+      color: #b91c1c;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .btn-clear-search:hover { background: #fee2e2; border-color: #ef4444; }
+    .nbhd-pdf-container {
+      border-radius: 8px;
+      border: 1.5px solid #e2e8f0;
+      overflow: hidden;
+      margin: 0.5rem 0 0.75rem;
+      background: #f8fafc;
+    }
+    .nbhd-pdf-container img { width: 100%; height: auto; display: block; cursor: zoom-in; }
+    .pdf-viewer-container img { cursor: zoom-in; }
+
+    /* ── Map Zoom Modal ──────────────────────────────────── */
+    #mapZoomModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #mapZoomModal.open { display: flex; }
+    #mapZoomViewport {
+      position: relative;
+      width: 92vw;
+      height: 92vh;
+      overflow: hidden;
+      cursor: grab;
+    }
+    #mapZoomViewport.dragging { cursor: grabbing; }
+    #mapZoomImg {
+      position: absolute;
+      transform-origin: 0 0;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    #mapZoomClose {
+      position: fixed;
+      top: 0.875rem;
+      right: 1.25rem;
+      font-size: 2.25rem;
+      line-height: 1;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10000;
+      opacity: 0.8;
+    }
+    #mapZoomClose:hover { opacity: 1; }
+    #mapZoomHint {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      top: 50%;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: #dc2626;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2rem;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      transition: top 0.6s ease, transform 0.6s ease, font-size 0.6s ease, padding 0.6s ease;
+      z-index: 10001;
+    }
+    #mapZoomHint.dropped {
+      top: auto;
+      bottom: 1.25rem;
+      transform: translateX(-50%);
+      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+    }
+
+    @media (max-width: 768px) {
+      #areaMapContainer svg { width: 100%; min-width: 0; }
+      #areaMapContainer { overflow-x: hidden; }
+      .area-map-note::after { content: ' Tap the checkboxes below to select areas.'; }
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 1.5rem 0.75rem 3rem; }
+      .form-section { padding: 1.5rem 1.25rem; }
+      .form-actions { padding: 1.25rem; }
+      .success-banner { margin: 1.25rem 1.25rem 0; }
+      .row-pair { grid-template-columns: 1fr; gap: 1.25rem; }
+      .row-trio { grid-template-columns: 1fr; gap: 1.25rem; }
+      .input-narrow { max-width: 100%; }
+      #areaMapContainer { display: none; }
+    }
+
+    /* â”€â”€ Interactive Area Map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    #areaMapContainer {
+      width: 100%;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      margin-bottom: 1.25rem;
+      border: 1px solid #e2e8f0;
+      background: #111;
+      scrollbar-width: thick;
+      scrollbar-color: #1e3a5f #e2e8f0;
+    }
+    #areaMapContainer::-webkit-scrollbar { height: 12px; }
+    #areaMapContainer::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 6px; }
+    #areaMapContainer::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 6px; border: 2px solid #e2e8f0; }
+    #areaMapContainer::-webkit-scrollbar-thumb:hover { background: #14b8a6; }
+    #areaMapContainer svg {
+      width: 200%;
+      min-width: 1400px;
+      height: auto;
+      display: block;
+    }
+    .area-map-note {
+      font-size: 0.8125rem;
+      color: #1e40af;
+      margin-bottom: 0.75rem;
+    }
+    .search-type-legend {
+      margin: 0.5rem 0 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .search-type-legend li {
+      font-size: 0.8125rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+    .search-type-legend li strong {
+      color: #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="buyerForm" novalidate>
+    <div class="form-card">
+
+      <!-- Form Title -->
+      <div class="card-form-title">
+        <h1>Buyer Search Criteria Form</h1>
+        <p>Please take two minutes to fill out this form so we can help narrow down listings that fit your needs and wants!</p>
+      </div>
+
+      <!-- Success Banner -->
+      <div class="success-banner" id="successBanner" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="successMsg"></span>
+      </div>
+
+      <!-- ── Document Links ─────────────────────────────── -->
+      <div class="form-section" style="padding-bottom: 1.25rem;">
+        <p class="section-title" style="margin-bottom: 0.75rem;">Please review the following documents before proceeding:</p>
+        <ul class="doc-links">
+          <li><a href="Compressed Maps/DORT.pdf" target="_blank">Disclosure of Representation in Trading Services (DORTS)</a></li>
+          <li><a href="Compressed Maps/PNAC.pdf" target="_blank">Privacy Notice And Consent (PNAC)</a></li>
+        </ul>
+      </div>
+
+      <!-- ── Section 1: Personal Information ─────────────── -->
+      <div class="form-section">
+        <p class="section-title">1. Personal Information</p>
+
+        <div class="row-pair">
+          <div class="form-row">
+            <label class="form-label" for="firstName">First Name<span class="req">*</span></label>
+            <input class="form-input" type="text" id="firstName" name="firstName" placeholder="e.g. Jane" autocomplete="given-name">
+            <span class="error-text" id="err-firstName"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="lastName">Last Name<span class="req">*</span></label>
+            <input class="form-input" type="text" id="lastName" name="lastName" placeholder="e.g. Smith" autocomplete="family-name">
+            <span class="error-text" id="err-lastName"></span>
+          </div>
+        </div>
+
+        <div class="row-pair">
+          <div class="form-row">
+            <label class="form-label" for="email">Email<span class="req">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="e.g. jane@email.com" autocomplete="email">
+            <span class="error-text" id="err-email"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="contactNumber">Contact Number<span class="req">*</span></label>
+            <input class="form-input" type="tel" id="contactNumber" name="contactNumber" placeholder="(604) 123-4567" autocomplete="tel">
+            <span class="error-text" id="err-contactNumber"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Budget ────────────────────────────────────────── -->
+      <div class="form-section">
+        <p class="section-title">2. Budget</p>
+        <div class="form-row">
+          <div class="row-pair">
+            <div>
+              <span class="sub-label">Minimum<span class="req">*</span></span>
+              <select class="form-select" id="budgetMin" name="budgetMin"></select>
+              <span class="error-text" id="err-budgetMin"></span>
+            </div>
+            <div>
+              <span class="sub-label">Maximum<span class="req">*</span></span>
+              <select class="form-select" id="budgetMax" name="budgetMax"></select>
+              <span class="error-text" id="err-budgetMax"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section 2: Property Criteria ────────────────── -->
+      <div class="form-section">
+        <p class="section-title">3. Property Criteria</p>
+
+        <!-- Dwelling Type -->
+        <div class="form-row">
+          <label class="form-label">Dwelling Type<span class="req">*</span></label>
+          <div class="checkbox-group" id="dwellingGroup">
+            <label class="checkbox-pill">
+              <input type="checkbox" name="dwelling" value="Detached Home" id="cb-detached">
+              <span>Detached Home</span>
+            </label>
+            <label class="checkbox-pill">
+              <input type="checkbox" name="dwelling" value="Apartment" id="cb-apartment">
+              <span>Apartment</span>
+            </label>
+            <label class="checkbox-pill">
+              <input type="checkbox" name="dwelling" value="Townhouse" id="cb-townhouse">
+              <span>Townhouse</span>
+            </label>
+            <label class="checkbox-pill">
+              <input type="checkbox" name="dwelling" value="Duplex" id="cb-duplex">
+              <span>Duplex</span>
+            </label>
+          </div>
+          <span class="error-text" id="err-dwelling"></span>
+        </div>
+
+        <hr class="field-divider">
+
+        <!-- Beds / Baths / Kitchens -->
+        <div class="row-trio">
+          <div class="form-row">
+            <label class="form-label" for="beds">Beds<span class="req">*</span></label>
+            <select class="form-select" id="beds" name="beds"></select>
+            <span class="error-text" id="err-beds"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="baths">Baths<span class="req">*</span></label>
+            <select class="form-select" id="baths" name="baths"></select>
+            <span class="error-text" id="err-baths"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="kitchens">Kitchens</label>
+            <select class="form-select" id="kitchens" name="kitchens"></select>
+          </div>
+        </div>
+        <p class="kitchen-warning">*Warning: If you select more than 1 kitchen, you may risk filtering out listings with unauthorized suites, roughed in kitchens already, and homes that have the layout ready to suite.</p>
+
+        <hr class="field-divider">
+
+        <!-- Interior Sqft -->
+        <div class="form-row">
+          <label class="form-label">Interior Finished Sqft<span class="req">*</span></label>
+          <div class="row-pair">
+            <div>
+              <span class="sub-label">Minimum</span>
+              <select class="form-select" id="sqftMin" name="sqftMin"></select>
+              <span class="error-text" id="err-sqftMin"></span>
+            </div>
+            <div>
+              <span class="sub-label">Maximum</span>
+              <select class="form-select" id="sqftMax" name="sqftMax"></select>
+              <span class="error-text" id="err-sqftMax"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Year Built -->
+        <div class="form-row" style="margin-top: 1.25rem;">
+          <label class="form-label">Year Built<span class="req">*</span></label>
+          <div class="row-pair">
+            <div>
+              <span class="sub-label">Minimum</span>
+              <select class="form-select" id="yearMin" name="yearMin"></select>
+              <span class="error-text" id="err-yearMin"></span>
+            </div>
+            <div>
+              <span class="sub-label">Maximum</span>
+              <select class="form-select" id="yearMax" name="yearMax"></select>
+              <span class="error-text" id="err-yearMax"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Conditional: Lot Size (Detached Home) ────────── -->
+      <div class="form-section conditional-section" id="lotSizeSection">
+        <p class="section-title">3. i) Lot Size (sq ft)</p>
+        <div class="row-pair">
+          <div class="form-row">
+            <label class="form-label" for="lotMin">Minimum<span class="req">*</span></label>
+            <select class="form-select" id="lotMin" name="lotMin"></select>
+            <span class="error-text" id="err-lotMin"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="lotMax">Maximum<span class="req">*</span></label>
+            <select class="form-select" id="lotMax" name="lotMax"></select>
+            <span class="error-text" id="err-lotMax"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Conditional: Strata (Apartment / Townhouse / Duplex) ── -->
+      <div class="form-section conditional-section" id="strataSection">
+        <p class="section-title">3. ii) Strata Details</p>
+
+        <div class="row-trio">
+          <div class="form-row">
+            <label class="form-label" for="parking">Included Parking<span class="req">*</span></label>
+            <select class="form-select" id="parking" name="parking"></select>
+            <span class="error-text" id="err-parking"></span>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="strataFees">Max Monthly Strata Fees</label>
+            <select class="form-select" id="strataFees" name="strataFees"></select>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="petRestrictions">Pet Restrictions</label>
+            <select class="form-select" id="petRestrictions" name="petRestrictions">
+              <option value="doesnt_matter">Doesn't matter</option>
+              <option value="no_pets">No Pets Allowed</option>
+              <option value="pets_with_restrictions">Pets Allowed w/ restrictions</option>
+            </select>
+          </div>
+        </div>
+        <p class="field-note" style="margin-top:0.5rem;">Parking accuracy depends on the information provided by the listing agent.</p>
+      </div>
+
+      <!-- ── Section 3: Target Neighbourhood ────────────────── -->
+      <div class="form-section">
+        <p class="section-title">4. Target Search Neighbourhood</p>
+
+        <div class="form-row">
+          <label class="form-label label-highlight">Choose 1 of the 3 methods to narrow down your target area search</label>
+          <ol class="search-type-legend">
+            <li><strong>Neighbourhood (General Search)</strong> — Select large general neighbourhoods typically defined by municipal street boundaries that are made up from many smaller sub-communities (e.g. West Vancouver, East Vancouver, Burnaby North, Richmond…)</li>
+            <li><strong>Sub-Community (Semi-Custom Search)</strong> — Step 1 - Start by selecting a large area Neighbourhood first. Step 2 - Scroll down to select the desired sub-communities within the selected neighbourhoods from Step 1 (e.g. Yaletown, Metrotown, Brentwood, Renfrew Heights, Downtown East Side… etc)</li>
+            <li><strong>Custom Street Boundary (Full-Custom Search)</strong> — You choose your own specific streets to create a custom area boundary for your search (e.g. Hastings St, Boundary Rd, Kingsway, Main St)</li>
+          </ol>
+          <div style="display:flex; align-items:center; gap:0.625rem; margin-top:0.75rem; flex-wrap:wrap;">
+            <select class="form-select" id="searchType" name="searchType" style="max-width:340px;">
+              <option value="">Choose One</option>
+              <option value="entire_areas">Neighbourhood (General Search)</option>
+              <option value="select_neighbourhoods">Sub-Community (Semi-Custom Search)</option>
+              <option value="custom_boundaries">Custom Street Boundary (Full-Custom Search)</option>
+            </select>
+            <button type="button" id="clearSearchBtn" class="btn-clear-search" style="display:none;">Clear Selected</button>
+          </div>
+        </div>
+
+        <!-- Shared: Map + Area Checkboxes (Panel A & B) -->
+        <div id="areaSelectionShared" style="display:none;">
+          <p class="area-map-note label-highlight" id="areaMapNote">Click a neighbourhood region on the map to select it, or use the checkboxes below.</p>
+          <div id="areaMapContainer">
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="5994.6665"
+   height="2949.3333"
+   viewBox="0 0 5994.6665 2949.3333"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <filter id="selected-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <!-- Outer glow: blur the alpha, flood blue, clip to blurred alpha -->
+      <feGaussianBlur in="SourceAlpha" stdDeviation="28" result="outer-blur"/>
+      <feFlood flood-color="#ef4444" flood-opacity="0.9" result="outer-color"/>
+      <feComposite in="outer-color" in2="outer-blur" operator="in" result="outer-glow"/>
+      <!-- Inner glow: flood red inside shape, blur inward, clip back to shape -->
+      <feFlood flood-color="#fca5a5" flood-opacity="0.85" result="inner-flood"/>
+      <feComposite in="inner-flood" in2="SourceAlpha" operator="in" result="inner-clipped"/>
+      <feGaussianBlur in="inner-clipped" stdDeviation="55" result="inner-glow"/>
+      <!-- Stack: outer glow → source shape → inner glow on top -->
+      <feMerge>
+        <feMergeNode in="outer-glow"/>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="inner-glow"/>
+      </feMerge>
+    </filter>
+    <style type="text/css">
+      .area-region { fill: transparent; stroke: #3b82f6; stroke-width: 12; cursor: pointer; transition: fill 0.2s ease; }
+      .area-region:hover { fill: rgba(59,130,246,0.25); }
+      .area-region.selected { fill: rgba(239,68,68,0.45); stroke: #b91c1c; stroke-width: 15; filter: url(#selected-shadow); }
+    </style>
+  </defs>
+  <g
+     id="g1">
+    <image
+       width="5994.6665"
+       height="2949.3333"
+       preserveAspectRatio="none"
+       xlink:href="Compressed Maps/Full_Map_PNG.png"
+       id="image1" />
+    <path
+       style="fill:transparent"
+       d="m 859.0291,13.015592 c 0,96.315388 0,96.315388 0,96.315388 l 36.44366,26.03118 -5.20624,182.2183 -2.60311,150.98087 -26.03119,10.41247 v 52.06237 l 15.61871,39.04678 -20.82495,36.44366 L 692.42952,518.02058 424.30831,395.67401 252.50249,421.7052 150.98087,486.78316 135.36216,333.19917 54.665488,179.61518 130.15592,101.52162 140.5684,143.17152 234.28066,5.206237 Z"
+       class="area-region" data-area="West Vancouver" id="Area-West-Vancouver" />
+    <path
+       style="fill:transparent"
+       d="m 877.25093,10.412474 -2.60312,104.124736 23.60537,21.67331 -6.44239,335.00426 -25.76956,8.28307 v 46.93741 l 16.56614,45.09673 -25.76955,35.89331 42.3357,37.734 35.89331,-17.48649 40.49502,-20.24751 c 0,0 61.66285,-11.96443 62.58325,-5.52204 0.9203,6.44239 98.4765,68.10526 98.4765,68.10526 l 51.5391,-6.44239 125.1664,65.34423 122.4054,-28.53058 36.8137,-51.53911 81.9104,-3.68137 49.6984,34.05263 75.468,18.40683 37.734,-39.57468 2.761,-65.34424 42.3357,-38.65434 9.2034,-35.89331 -46.9374,-7.36273 -14.7254,-25.76956 59.8222,-25.76956 99.3968,-81.91038 57.9815,-96.63584 46.9374,-22.0882 32.212,-97.55618 -9.2034,-20.24751 52.4594,-44.176386 -32.2119,-97.55618537 h -107.68 l 9.2035,155.53769137 10.1237,30.37127 c 0,0 -462.0114,-6.44239 -471.2148,-9.20342 C 1448.6173,173.02418 970.0398,11.964438 970.0398,11.964438 Z"
+       class="area-region" data-area="North Vancouver" id="Area-North-Vancouver" />
+    <path
+       style="fill:transparent"
+       d="m 959.91605,808.05972 -81.91038,-40.49502 -62.58322,-23.92887 6.44239,-19.32717 h 31.29161 l 44.17639,-2.76103 -3.68137,-22.08819 c 0,0 -47.85775,-15.6458 -44.17639,-15.6458 3.68137,0 -69.94594,-84.67141 -69.94594,-84.67141 l -53.3798,17.48649 -26.6899,41.41536 -2.76102,46.01707 3.68136,18.40683 26.6899,23.00853 45.09673,51.53912 -2.76102,34.05263 -71.78663,66.26458 -84.67141,9.20341 -108.60028,-8.28307 -86.51209,-23.00854 -157.37837,-23.92887 -78.22902,74.54765 -12.88478,44.17638 66.26458,102.1579 204.31578,145.4139 34.05264,51.5391 107.67994,44.1764 73.62731,20.2475 48.77809,29.451 95.7155,83.751 64.4239,-12.8847 36.81365,-26.6899 h 41.41536 z"
+       class="area-region" data-area="Vancouver West" id="Area-Vancouver-West" />
+    <path
+       style="fill:transparent"
+       d="m 966.35844,811.74109 -20.24751,600.06261 c 0,0 54.30017,-3.6814 57.98147,-3.6814 3.6814,0 95.7155,-23.0085 95.7155,-23.0085 l 59.8222,20.2475 100.3172,2.761 90.1935,34.973 1.8407,-692.09674 -72.707,20.24751 -56.1408,-21.16785 -67.1849,29.45092 -29.451,18.40683 -144.49356,-22.0882 z"
+       class="area-region" data-area="Vancouver East" id="Area-East-Vancouver" />
+    <path
+       style="fill:transparent"
+       d="m 1358.4239,753.75958 -3.6814,283.46512 159.2191,3.6814 7.3627,32.2119 34.0526,3.6814 61.6629,55.2205 c 0,0 0.9203,-62.5832 9.2034,-62.5832 8.2831,0 39.5747,4.6017 39.5747,4.6017 l -8.2831,27.6102 43.2561,41.4154 66.2645,14.7254 74.5477,-58.9018 34.0526,11.0441 0.9204,18.4068 29.4509,-26.6899 80.0697,40.495 -5.5221,-373.65856 -41.4153,17.48649 -55.2205,-15.6458 -30.3713,16.56614 -28.5306,-26.6899 -138.9715,18.40683 c 0,0 -37.734,17.48648 -46.0171,12.88478 -8.2831,-4.60171 -115.0427,-53.3798 -115.0427,-53.3798 l -62.5832,27.61024 z"
+       class="area-region" data-area="Burnaby North" id="Area-Burnaby-North" />
+    <path
+       style="fill:transparent"
+       d="m 1353.8222,1443.0953 v -403.1096 l 157.3783,4.6018 10.1238,35.8933 32.2119,1.8407 62.5832,55.2204 12.8848,-17.4865 2.761,-46.017 23.9289,0.9203 3.6814,34.973 45.0967,39.5747 72.707,10.1237 65.3442,-56.1408 28.5306,11.0441 5.5221,17.4865 -46.0171,32.2119 -9.2034,47.8578 -161.0598,127.9274 31.2916,45.0968 -0.9203,22.0882 -39.5747,28.5305 46.0171,48.7781 -35.8933,20.2475 -46.0171,49.6985 -15.6458,23.0085 -33.1323,10.1238 -73.6273,-42.3357 -36.8137,-54.3002 z"
+       class="area-region" data-area="Burnaby South" id="Area-Burnaby-South" />
+    <path
+       style="fill:transparent"
+       d="m 1907.8677,1107.1707 -73.6273,58.9018 -10.1238,46.9374 -161.9801,128.8478 33.1323,44.1764 -2.761,18.4068 284.3855,-233.7667 3.6813,-28.5306 z"
+       class="area-region" data-area="Burnaby East" id="Area-Burnaby-East" />
+    <path
+       style="fill:transparent"
+       d="m 1985.1763,1166.0725 -329.4822,270.5804 45.0968,47.8577 -32.212,43.2561 3.6814,101.2375 118.724,-84.6714 60.7425,-66.2646 101.2376,-74.5476 34.973,-83.7511 1.8406,-21.1678 75.468,-43.2561 1.8407,-46.9374 -25.7695,-21.1678 -36.8137,-11.0441 z"
+       class="area-region" data-area="New Westminster" id="Area-New-Westminster" />
+    <path
+       style="fill:transparent"
+       d="m 811.74109,1477.1479 61.66287,-31.2916 35.89331,-7.3627 111.36133,32.2119 121.485,-44.1764 127.0071,0.9204 168.4225,78.229 50.6188,54.3001 58.9018,32.212 27.6103,6.4424 41.4153,-8.2831 50.6188,-63.5036 1.8407,101.2376 -47.8577,49.6984 -149.0953,57.0612 -32.212,42.3357 -180.3869,52.4594 -162.9004,168.4225 -43.2561,23.0085 -193.27166,85.5918 -115.04267,-3.6814 -256.77524,-125.1664 7.36273,-346.0484 179.46656,8.2831 92.95448,-39.5747 z"
+       class="area-region" data-area="Richmond" id="Area-Richmond" />
+    <path
+       style="fill:transparent"
+       d="m 1744.0469,1767.9758 c -14.7255,7.3627 -46.9374,27.6102 -46.9374,27.6102 l -88.3528,-18.4068 -135.2902,42.3357 -34.9729,23.0085 -83.7511,-5.522 -73.6273,37.734 -68.1053,103.0782 -139.8919,122.4054 -19.3271,114.1223 -107.67997,78.2291 -74.54765,-2.7611 -321.19914,-194.192 52.45946,226.404 275.18207,232.8463 1.84068,-24.8492 56.14082,-46.017 304.63303,1.8406 6.4424,92.9545 26.6899,0.9204 139.8918,-119.6444 525.515,-164.7411 42.3357,-40.495 -78.229,-158.2988 -83.7511,-39.5746 -23.0085,-126.0868 -59.8222,-155.5377 z"
+       class="area-region" data-area="Ladner" id="Area-Ladner" />
+    <path
+       style="fill:transparent"
+       d="m 885.3684,2566.8321 -5.52205,-29.4509 55.22048,-46.9375 c 0,0 301.87197,-11.044 300.95167,0 -0.9204,11.0441 11.0441,92.9545 11.0441,92.9545 l -58.9019,143.5733 78.229,58.9018 27.6103,129.7682 -274.2618,-2.7611 -54.3001,-161.0597 11.96443,-80.0697 z"
+       class="area-region" data-area="Tsawwassen" id="Area-Tsawwassen" />
+    <path
+       style="fill:transparent"
+       d="m 2008.1849,325.80084 321.1991,-1.84068 -10.1237,574.29302 -108.6003,7.36273 -3.6814,12.88478 -218.1209,0.92034 -2.761,-150.93599 -28.5306,-34.97297 -70.8663,17.48649 -34.0526,-7.36273 -35.8933,-57.98151 -5.5221,-130.68847 72.707,-84.67141 46.9374,54.30014 z"
+       class="area-region" data-area="Port Moody" id="Area-Port-Moody" />
+    <path
+       style="fill:transparent"
+       d="m 2333.9857,324.8805 -10.1237,577.05404 -112.2817,7.36273 -2.761,15.64581 -220.8819,-2.76103 0.9203,243.89045 25.7696,12.8848 20.2475,3.6814 33.1323,23.0085 2.761,50.6188 h 49.6984 l 178.5462,28.5306 107.68,-29.451 -3.6814,-20.2475 27.6103,-55.2205 -29.451,-13.8051 1.8407,-31.2916 47.8578,-59.8222 -9.2034,-33.1323 12.8847,-49.6984 28.5306,-4.60171 V 861.43952 l 104.9189,-2.76102 7.3628,-81.91038 h 32.2119 l -0.9203,29.45092 133.4495,-1.84068 1.8407,51.53911 108.6002,1.84069 47.8578,-55.22049 176.7055,-55.22048 -3.6813,-13.80512 -14.7255,-7.36273 -26.6899,-3.68136 -41.4154,-124.24609 69.946,-76.38833 0.9203,-47.85775 119.6444,-149.09531 z"
+       class="area-region" data-area="Coquitlam" id="Area-Coquitlam" />
+    <path
+       style="fill:transparent"
+       d="m 2870.5447,866.96157 c -10.1237,0.92034 -108.6002,-6.44239 -108.6002,-6.44239 l -4.6018,-1.84068 v -46.93741 l -132.5291,-2.76103 -0.9204,-26.6899 h -23.9288 l -9.2034,80.0697 -103.9986,4.60171 V 992.128 l -31.2916,2.76102 -10.1238,48.77808 8.2831,31.2916 -48.7781,59.8222 v 26.6899 l 30.3713,16.5662 -30.3713,56.1408 8.2831,23.0085 154.6173,-24.8492 55.2205,-59.8222 121.4851,-76.3883 57.0611,-54.3002 z"
+       class="area-region" data-area="Port Coquitlam" id="Area-Port-Coquitlam" />
+    <path
+       style="fill:transparent"
+       d="m 1837.9217,1605.0753 61.6629,-138.0512 89.2731,-85.5917 46.9374,-68.1053 c 0,0 84.6714,-19.3271 91.1138,-18.4068 6.4424,0.9203 266.899,4.6017 266.899,4.6017 l 192.3513,45.0967 85.5918,-9.2034 80.99,28.5306 40.4951,83.7511 3.6813,78.229 49.6985,43.256 115.0426,-0.9203 54.3002,-22.0882 5.522,-2.761 -2.761,287.1465 -245.7312,-2.761 -23.0085,50.6187 2.761,-299.1109 -212.5988,-75.468 -4.6017,110.441 -251.2532,6.4424 -22.0882,-7.3628 z"
+       class="area-region" data-area="North Surrey" id="path2" />
+    <path
+       style="fill:transparent"
+       d="m 1997.1408,1612.4381 -161.9801,-4.6017 -96.6359,132.5291 63.5036,188.67 20.2475,122.4054 92.0341,43.2561 72.707,156.458 6.4424,-5.5221 z"
+       class="area-region" data-area="North Delta" id="Area-North-Delta" />
+    <path
+       style="fill:transparent"
+       d="m 2001.7425,1613.3584 259.5362,2.761 26.6899,11.0441 254.0143,-7.3627 0.9203,-110.441 208.9175,75.468 -3.6814,292.6686 c 0,0 -128.8478,84.6714 -132.5291,84.6714 -3.6814,0 -54.3002,-15.6458 -54.3002,-15.6458 l -71.7866,35.8933 2.761,34.0526 30.3713,89.2732 c 0,0 68.1053,29.4509 64.4239,29.4509 -3.6814,0 -11.9644,34.0526 -11.9644,34.0526 l 11.044,31.2916 -81.9103,52.4595 -11.9645,-34.0527 -41.4153,-9.2034 -23.9289,16.5662 -24.8492,-19.3272 -14.7255,26.6899 16.5662,10.1238 2.761,20.2475 -13.8051,3.6813 -12.8848,-13.8051 -9.2034,0.9204 -18.4069,49.6984 -11.9644,-28.5306 -11.0441,3.6814 -8.2831,-18.4069 -11.9644,-0.9203 -7.3627,-25.7696 -11.0441,11.0441 v 20.2476 l -25.7696,10.1237 -25.7695,-2.761 -48.7781,21.1678 -11.9645,12.8848 -57.0611,-37.734 -15.6458,-17.4865 -109.5207,-6.4424 z"
+       class="area-region" data-area="Surrey" id="Area-Surrey" />
+    <path
+       style="fill:transparent"
+       d="m 1998.0611,2252.0753 104.9189,2.7611 79.1494,57.9815 12.8848,-16.5662 47.8577,-21.1678 32.212,2.761 21.1678,-10.1238 -1.8407,-24.8492 6.4424,-2.761 6.4424,27.6102 13.8051,-2.761 9.2034,18.4068 11.0441,-4.6017 12.8848,32.212 21.1679,-53.3798 32.2119,11.9644 3.6814,-20.2475 -20.2475,-15.6458 12.8848,-23.0085 22.0882,17.4865 25.7695,-15.6458 41.4154,10.1237 11.0441,34.0526 85.5917,-56.1408 -12.8848,-30.3712 11.0441,-42.3358 -61.6628,-23.0085 -37.734,-115.963 72.7069,-38.6543 56.1409,13.8051 138.9715,-88.3528 20.2475,-46.9374 241.1295,1.8407 -3.6814,652.522 -370.8976,-4.6017 -1.8407,-110.441 -601.9032,1.8407 z"
+       class="area-region" data-area="Cloverdale" id="Area-Cloverdale" />
+    <path
+       style="fill:transparent"
+       d="m 1987.9374,2257.5974 c 0,0 -2.7611,499.7453 3.6813,499.7453 6.4424,0 236.5278,-7.3627 243.8905,-6.4423 7.3627,0.9203 205.2361,41.4153 205.2361,41.4153 l 48.7781,21.1679 49.6984,-9.2034 97.5562,111.3613 370.8976,-8.2831 v -108.6003 l 5.522,-308.3144 -372.7382,-11.044 c 0,0 4.6017,-109.5207 -1.8407,-109.5207 -6.4424,0 -601.9032,2.7611 -601.9032,2.7611 z"
+       class="area-region" data-area="South Surrey / White Rock" id="Area-South-Surrey-White-Rock" />
+    <path
+       style="fill:transparent"
+       d="m 3022.2206,1539.7446 -11.7141,1371.8434 c 0,0 1086.802,5.2063 1084.1989,-2.6031 -2.6031,-7.8093 -15.6187,-1228.6719 -15.6187,-1228.6719 0,0 -81.9983,-1.3016 -88.506,-1.3016 -6.5078,0 -229.0745,37.7452 -236.8838,37.7452 -7.8094,0 -101.5217,-32.5389 -101.5217,-32.5389 l -291.5492,-322.7867 -222.5667,96.3154 z"
+       class="area-region" data-area="Langley" id="Area-Langley" />
+    <path
+       style="fill:transparent"
+       d="m 4085.5945,1677.7099 11.714,1233.8781 1643.8693,-2.6031 5.2063,-111.9341 111.9341,2.6031 -2.6031,-165.298 50.7608,-1.3015 2.6031,-49.4593 55.967,-2.6031 v -88.506 l -37.7452,-19.5234 6.5078,-338.4054 -96.3154,-156.1871 16.9203,-76.792 -134.0606,-33.8406 -78.0936,-5.2062 -223.8682,70.2842 -74.1888,37.7452 h -134.0606 l -153.584,-102.8232 -339.707,247.2963 -78.0935,-6.5078 -348.8179,-393.0709 z"
+       class="area-region" data-area="Abbotsford" id="Area-Abbotsford" />
+    <path
+       style="fill:transparent"
+       d="m 4263.9081,1654.2818 95.0138,93.7123 124.9497,166.5996 167.9011,42.9514 118.4419,63.7764 41.6499,-14.3171 249.8994,-166.5996 c 0,0 184.8214,114.5372 192.6308,111.9341 7.8093,-2.6031 106.7278,-19.5234 106.7278,-19.5234 l 252.5025,-91.1092 243.3916,-40.3483 137.9653,-7.8094 V 2.6031185 L 4357.6204,5.206237 4338.097,972.26476 h -68.9827 z"
+       class="area-region" data-area="Mission" id="Area-Mission" />
+    <path
+       style="fill:transparent"
+       d="m 4258.7019,1652.9802 5.2062,-682.017 h 76.792 l 5.2062,-671.60457 -829.0932,9.11091 -78.0936,115.83877 9.1109,45.55458 -41.6499,28.6343 1.3016,412.59428 -52.0624,5.20624 1.3016,49.45925 44.253,2.60312 6.5078,66.37952 -108.0294,-3.9047 -3.9047,46.8562 -106.7278,-6.5078 5.2062,66.3795 -58.5702,-3.9047 -1.3015,74.1889 -49.4593,3.9047 7.8094,80.6966 -23.4281,-2.6031 6.5078,78.0936 -13.0156,23.428 9.1109,52.0624 89.8076,-27.3327 137.9653,-70.2842 72.8873,6.5078 75.4904,50.7608 28.6343,41.6499 72.8874,118.4419 261.6134,101.5216 265.5181,-19.5234 173.1073,11.714 z"
+       class="area-region" data-area="Maple Ridge" id="path3" />
+    <path
+       style="fill:transparent"
+       d="m 3495.9881,331.89761 -174.4089,1.30156 -104.1247,114.53721 -31.2375,-1.30156 -137.9652,143.17152 v 45.55457 l 2.6031,24.72963 52.0623,41.64989 18.2219,3.90468 10.4124,44.25302 -35.1421,45.55457 -102.8231,20.82495 -70.2842,74.18887 -44.253,53.36393 -29.9359,110.63255 -5.2062,-11.714 -67.6811,57.2686 -15.6187,35.1421 -121.045,55.967 -23.4281,45.5546 52.0624,72.8873 160.0917,55.9671 h 26.0312 l 150.9809,74.1888 53.3639,16.9203 16.9203,-16.9203 -19.5234,-57.2686 14.3172,-10.4125 -1.3016,-91.1091 20.825,10.4125 -5.2063,-83.2998 44.253,-1.3016 5.2063,-80.6967 54.6655,6.5078 -3.9047,-65.0779 110.6325,7.8093 2.6031,-52.0623 108.0294,11.714 -9.1109,-65.07796 -44.253,-2.60312 -2.6031,-54.66549 57.2686,-1.30156 -3.9047,-416.49896 44.253,-27.33274 -14.3171,-45.55457 z"
+       class="area-region" data-area="Pitt Meadows" id="Area-Pitt-Meadows" />
+  </g>
+</svg>
+          </div>
+          <div id="areaCheckboxGroup"></div>
+        </div>
+
+        <!-- Panel A: Entire Areas -->
+        <div class="nbhd-panel" id="panelEntireAreas"></div>
+
+        <!-- Panel B: Select Neighbourhoods -->
+        <div class="nbhd-panel" id="panelSelectNbhd">
+          <hr class="field-divider">
+          <p class="nbhd-section-intro label-highlight" id="nbhdSectionIntro"><strong>STEP 2 - SELECT SUB-COMMUNITIES WITHIN SELECTED AREAS</strong> - The areas you selected above will show the corresponding sub-communities below. Simply, click "VIEW MAP" to zoom in/out and check off which sub-communities you wish to include in your target search.</p>
+          <div id="nbhdCheckboxGroup"></div>
+        </div>
+
+        <!-- Panel C: Custom Street Boundaries -->
+        <div class="nbhd-panel" id="panelCustomBoundary">
+          <p class="map-instruction">Select an area to load its reference map, then describe your street boundaries below.</p>
+          <div class="form-row">
+            <label class="form-label" for="boundaryAreaSelect">View Area Map</label>
+            <select class="form-select input-narrow" id="boundaryAreaSelect">
+              <option value="">Select an area…</option>
+            </select>
+          </div>
+          <div id="boundaryPdfViewer" class="pdf-viewer-container" style="display:none;">
+            <img id="boundaryPdfEmbed" src="" alt="Area map">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="streetBoundaries">Street Boundaries</label>
+            <span class="field-note">Describe your target area using street names or cross-streets.</span>
+            <textarea class="form-textarea" id="streetBoundaries" name="streetBoundaries" placeholder="e.g. Main St between 1st Ave and 10th Ave, east of Oak St"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Branding Footer ───────────────────────────────── -->
+      <div class="branding-footer">
+        <img src="Compressed Maps/PM_HEADER_FOOTER_BOX.jpg" alt="Jeff Lam — Personal Real Estate Corporation, Sutton Group West Coast Realty">
+      </div>
+
+      <!-- ── Terms Consent ──────────────────────────────────── -->
+      <div class="form-section" style="padding-bottom: 1.25rem;">
+        <label class="consent-label">
+          <input type="checkbox" id="consentCheck" name="consentCheck">
+          <span>By checking off this box and submitting your information you are agreeing to the Terms of Service and Privacy policy of this landing page, and are opting in to receive communications through email, SMS text messaging, and other electronic communications. This is not intended to solicit properties already listed for sale nor intended to cause a breach of an existing agency relationship.<span class="req"> *</span></span>
+        </label>
+        <span class="error-text" id="err-consent"></span>
+      </div>
+
+      <!-- ── Submit ─────────────────────────────────────────── -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">Submit Search Criteria</button>
+      </div>
+
+    </div>
+  </form>
+
+  <script>
+    // ── Helpers ──────────────────────────────────────────────
+    function opt(value, label) {
+      const o = document.createElement('option');
+      o.value = value;
+      o.textContent = label;
+      return o;
+    }
+
+    function populateSelect(el, options) {
+      options.forEach(([v, l]) => el.appendChild(opt(v, l)));
+    }
+
+    // Room options: 0, 1, 1+, 2, 2+, … 10, 10+
+    function roomOptions(placeholder) {
+      const rows = [];
+      if (placeholder) rows.push(['', placeholder]);
+      rows.push(['0', '0']);
+      for (let i = 1; i <= 10; i++) {
+        rows.push([String(i), String(i)]);
+        rows.push([`${i}+`, `${i}+`]);
+      }
+      return rows;
+    }
+
+    // ── Budget: $300,000 → $10,000,000 in $50,000 steps
+    const budgetOpts = [['', 'Choose One']];
+    for (let v = 300000; v <= 10000000; v += 50000) {
+      budgetOpts.push([String(v), '$' + v.toLocaleString()]);
+    }
+    populateSelect(document.getElementById('budgetMin'), budgetOpts);
+    populateSelect(document.getElementById('budgetMax'), budgetOpts);
+
+    // ── Beds / Baths
+    populateSelect(document.getElementById('beds'),  roomOptions('Choose One'));
+    populateSelect(document.getElementById('baths'), roomOptions('Choose One'));
+
+    // ── Kitchens (default "1")
+    populateSelect(document.getElementById('kitchens'), roomOptions(null));
+    document.getElementById('kitchens').value = '1';
+
+    // ── Interior Sqft: 300 → 5,000 in 50 steps + "5,000+"
+    const sqftOpts = [['', 'Choose One']];
+    for (let v = 300; v <= 5000; v += 50) {
+      sqftOpts.push([String(v), v.toLocaleString() + ' sqft']);
+    }
+    sqftOpts.push(['5001', '5,000+ sqft']);
+    populateSelect(document.getElementById('sqftMin'), sqftOpts);
+    populateSelect(document.getElementById('sqftMax'), sqftOpts);
+
+    // ── Year Built: 1900 → 2026
+    const yearOpts = [['', 'Choose One']];
+    for (let y = 1900; y <= 2026; y++) yearOpts.push([String(y), String(y)]);
+    populateSelect(document.getElementById('yearMin'), yearOpts);
+    populateSelect(document.getElementById('yearMax'), yearOpts);
+
+    // ── Lot Size: 2,000 → 10,000 sqft in 100 steps + "10,000+"
+    const lotOpts = [['ANY', 'ANY']];
+    for (let v = 2000; v <= 10000; v += 100) {
+      lotOpts.push([String(v), v.toLocaleString() + ' sqft']);
+      if (v === 4000) lotOpts.push(['4026', '4,026 sqft (Standard Lot)']);
+    }
+    lotOpts.push(['10001', '10,000+ sqft']);
+    populateSelect(document.getElementById('lotMin'), lotOpts);
+    populateSelect(document.getElementById('lotMax'), lotOpts);
+
+    // ── Parking (default "0")
+    populateSelect(document.getElementById('parking'), roomOptions(null));
+    document.getElementById('parking').value = '0';
+
+    // ── Strata Fees: $100 → $2,000 in $50 steps + "$2,000+"
+    const strataOpts = [['ANY', 'ANY']];
+    for (let v = 100; v <= 2000; v += 50) {
+      strataOpts.push([String(v), '$' + v.toLocaleString() + '/mo']);
+    }
+    strataOpts.push(['2001', '$2,000+/mo']);
+    populateSelect(document.getElementById('strataFees'), strataOpts);
+
+    // ── Conditional Section Visibility ───────────────────────
+    const lotSizeSection  = document.getElementById('lotSizeSection');
+    const strataSection   = document.getElementById('strataSection');
+    const dwellingCBs     = document.querySelectorAll('input[name="dwelling"]');
+
+    function updateConditionals() {
+      const checked = [...dwellingCBs].filter(cb => cb.checked).map(cb => cb.value);
+      const showLot    = checked.includes('Detached Home');
+      const showStrata = checked.some(v => ['Apartment', 'Townhouse', 'Duplex'].includes(v));
+      lotSizeSection.classList.toggle('visible', showLot);
+      strataSection.classList.toggle('visible', showStrata);
+    }
+    dwellingCBs.forEach(cb => cb.addEventListener('change', updateConditionals));
+
+    // ── Min/Max Live Cross-Validation ────────────────────────
+    function setupMinMax(minId, maxId, errMinId, errMaxId) {
+      const minEl = document.getElementById(minId);
+      const maxEl = document.getElementById(maxId);
+
+      function crossCheck() {
+        const minV = minEl.value;
+        const maxV = maxEl.value;
+        const errMin = document.getElementById(errMinId);
+        const errMax = document.getElementById(errMaxId);
+
+        // Clear previous cross-val errors only
+        if (errMin.dataset.crossval) { errMin.textContent = ''; errMin.removeAttribute('data-crossval'); minEl.classList.remove('is-invalid'); }
+        if (errMax.dataset.crossval) { errMax.textContent = ''; errMax.removeAttribute('data-crossval'); maxEl.classList.remove('is-invalid'); }
+
+        if (minV && minV !== 'ANY' && maxV && maxV !== 'ANY') {
+          if (parseInt(minV) > parseInt(maxV)) {
+            errMin.textContent = 'Minimum must not exceed maximum.';
+            errMin.dataset.crossval = '1';
+            minEl.classList.add('is-invalid');
+            errMax.textContent = 'Maximum must not be less than minimum.';
+            errMax.dataset.crossval = '1';
+            maxEl.classList.add('is-invalid');
+          }
+        }
+      }
+      minEl.addEventListener('change', crossCheck);
+      maxEl.addEventListener('change', crossCheck);
+    }
+
+    setupMinMax('budgetMin', 'budgetMax', 'err-budgetMin', 'err-budgetMax');
+    setupMinMax('sqftMin',   'sqftMax',   'err-sqftMin',   'err-sqftMax');
+    setupMinMax('yearMin',   'yearMax',   'err-yearMin',   'err-yearMax');
+    setupMinMax('lotMin',    'lotMax',    'err-lotMin',    'err-lotMax');
+
+    // ── Validation Helpers ───────────────────────────────────
+    function markError(fieldId, errId, msg) {
+      const el = document.getElementById(fieldId);
+      const er = document.getElementById(errId);
+      el.classList.add('is-invalid');
+      er.textContent = msg;
+    }
+    function clearError(fieldId, errId) {
+      const el = document.getElementById(fieldId);
+      const er = document.getElementById(errId);
+      el.classList.remove('is-invalid');
+      er.textContent = '';
+      er.removeAttribute('data-crossval');
+    }
+    function clearAll() {
+      document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      document.querySelectorAll('.error-text').forEach(el => { el.textContent = ''; el.removeAttribute('data-crossval'); });
+      const cl = document.querySelector('.consent-label');
+      if (cl) cl.style.color = '';
+    }
+
+    // ── Full Validation ──────────────────────────────────────
+    function validate() {
+      let ok = true;
+
+      // First Name
+      const firstName = document.getElementById('firstName').value.trim();
+      if (!firstName) { markError('firstName', 'err-firstName', 'First name is required.'); ok = false; }
+      else clearError('firstName', 'err-firstName');
+
+      // Last Name
+      const lastName = document.getElementById('lastName').value.trim();
+      if (!lastName) { markError('lastName', 'err-lastName', 'Last name is required.'); ok = false; }
+      else clearError('lastName', 'err-lastName');
+
+      // Email
+      const email = document.getElementById('email').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+      if (!email) { markError('email', 'err-email', 'Email is required.'); ok = false; }
+      else if (!emailOk) { markError('email', 'err-email', 'Please enter a valid email address.'); ok = false; }
+      else clearError('email', 'err-email');
+
+      // Contact Number
+      const digits = document.getElementById('contactNumber').value.replace(/\D/g, '');
+      if (!digits) { markError('contactNumber', 'err-contactNumber', 'Contact number is required.'); ok = false; }
+      else if (digits.length !== 10) { markError('contactNumber', 'err-contactNumber', 'Please enter a 10-digit phone number.'); ok = false; }
+      else clearError('contactNumber', 'err-contactNumber');
+
+      // Dwelling Type
+      const dwellings = [...document.querySelectorAll('input[name="dwelling"]:checked')].map(cb => cb.value);
+      const dwellGroup = document.getElementById('dwellingGroup');
+      const dwellErr   = document.getElementById('err-dwelling');
+      if (dwellings.length === 0) {
+        dwellGroup.classList.add('is-invalid');
+        dwellErr.textContent = 'Please select at least one dwelling type.';
+        ok = false;
+      } else {
+        dwellGroup.classList.remove('is-invalid');
+        dwellErr.textContent = '';
+      }
+
+      // Budget
+      const budgetMin = document.getElementById('budgetMin').value;
+      const budgetMax = document.getElementById('budgetMax').value;
+      if (!budgetMin) { markError('budgetMin', 'err-budgetMin', 'Please select a minimum budget.'); ok = false; }
+      else clearError('budgetMin', 'err-budgetMin');
+      if (!budgetMax) { markError('budgetMax', 'err-budgetMax', 'Please select a maximum budget.'); ok = false; }
+      else clearError('budgetMax', 'err-budgetMax');
+      if (budgetMin && budgetMax && parseInt(budgetMin) > parseInt(budgetMax)) {
+        markError('budgetMin', 'err-budgetMin', 'Minimum must not exceed maximum.');
+        markError('budgetMax', 'err-budgetMax', 'Maximum must not be less than minimum.');
+        ok = false;
+      }
+
+      // Beds
+      const beds = document.getElementById('beds').value;
+      if (!beds) { markError('beds', 'err-beds', 'Please select number of beds.'); ok = false; }
+      else clearError('beds', 'err-beds');
+
+      // Baths
+      const baths = document.getElementById('baths').value;
+      if (!baths) { markError('baths', 'err-baths', 'Please select number of baths.'); ok = false; }
+      else clearError('baths', 'err-baths');
+
+      // Interior Sqft
+      const sqftMin = document.getElementById('sqftMin').value;
+      const sqftMax = document.getElementById('sqftMax').value;
+      if (!sqftMin) { markError('sqftMin', 'err-sqftMin', 'Please select minimum sqft.'); ok = false; }
+      else clearError('sqftMin', 'err-sqftMin');
+      if (!sqftMax) { markError('sqftMax', 'err-sqftMax', 'Please select maximum sqft.'); ok = false; }
+      else clearError('sqftMax', 'err-sqftMax');
+      if (sqftMin && sqftMax && parseInt(sqftMin) > parseInt(sqftMax)) {
+        markError('sqftMin', 'err-sqftMin', 'Minimum must not exceed maximum.');
+        markError('sqftMax', 'err-sqftMax', 'Maximum must not be less than minimum.');
+        ok = false;
+      }
+
+      // Year Built
+      const yearMin = document.getElementById('yearMin').value;
+      const yearMax = document.getElementById('yearMax').value;
+      if (!yearMin) { markError('yearMin', 'err-yearMin', 'Please select minimum year.'); ok = false; }
+      else clearError('yearMin', 'err-yearMin');
+      if (!yearMax) { markError('yearMax', 'err-yearMax', 'Please select maximum year.'); ok = false; }
+      else clearError('yearMax', 'err-yearMax');
+      if (yearMin && yearMax && parseInt(yearMin) > parseInt(yearMax)) {
+        markError('yearMin', 'err-yearMin', 'Minimum must not exceed maximum.');
+        markError('yearMax', 'err-yearMax', 'Maximum must not be less than minimum.');
+        ok = false;
+      }
+
+      // Lot Size (conditional — visible only for Detached Home)
+      if (lotSizeSection.classList.contains('visible')) {
+        const lotMin = document.getElementById('lotMin').value;
+        const lotMax = document.getElementById('lotMax').value;
+        // Both values are always present (default ANY), validate cross-val only when both numeric
+        if (lotMin !== 'ANY' && lotMax !== 'ANY' && parseInt(lotMin) > parseInt(lotMax)) {
+          markError('lotMin', 'err-lotMin', 'Minimum must not exceed maximum.');
+          markError('lotMax', 'err-lotMax', 'Maximum must not be less than minimum.');
+          ok = false;
+        } else {
+          clearError('lotMin', 'err-lotMin');
+          clearError('lotMax', 'err-lotMax');
+        }
+      }
+
+      // Parking (conditional — required when strata section is visible)
+      if (strataSection.classList.contains('visible')) {
+        const parking = document.getElementById('parking').value;
+        if (!parking) { markError('parking', 'err-parking', 'Please select included parking.'); ok = false; }
+        else clearError('parking', 'err-parking');
+      }
+
+      // Sub-community validation — each visible area block must have ≥1 sub-community checked
+      if (document.getElementById('searchType').value === 'select_neighbourhoods') {
+        document.querySelectorAll('#nbhdCheckboxGroup .nbhd-area-block.visible').forEach(function (block) {
+          const anyChecked = [...block.querySelectorAll('input[name="neighbourhood"]')].some(cb => cb.checked);
+          if (!anyChecked) {
+            const areaName = block.getAttribute('data-area');
+            const errSpan = block.querySelector('[data-area-error]');
+            if (errSpan) errSpan.textContent = 'Please select at least one sub-community for ' + areaName + ', or deselect this neighbourhood.';
+            block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            ok = false;
+          }
+        });
+      }
+
+      if (!document.getElementById('consentCheck').checked) {
+        const el = document.getElementById('consentCheck');
+        el.closest('.consent-label').style.color = '#dc2626';
+        document.getElementById('err-consent').textContent = 'You must agree to the terms before submitting.';
+        ok = false;
+      }
+
+      return ok;
+    }
+
+    // ── Build Payload ────────────────────────────────────────
+    function selText(id) {
+      const el = document.getElementById(id);
+      return el.options[el.selectedIndex].text;
+    }
+
+    function buildPayload() {
+      const isDetached = document.getElementById('cb-detached').checked;
+      const isStrata   = ['cb-apartment', 'cb-townhouse', 'cb-duplex'].some(id => document.getElementById(id).checked);
+      const phone      = document.getElementById('contactNumber').value.replace(/\D/g, '');
+
+      const sqftMinV = document.getElementById('sqftMin').value;
+      const sqftMaxV = document.getElementById('sqftMax').value;
+      const lotMinV  = document.getElementById('lotMin').value;
+      const lotMaxV  = document.getElementById('lotMax').value;
+
+      const payload = {
+        personalInfo: {
+          firstName:     document.getElementById('firstName').value.trim(),
+          lastName:      document.getElementById('lastName').value.trim(),
+          email:         document.getElementById('email').value.trim(),
+          contactNumber: phone
+        },
+        dwellingTypes: [...document.querySelectorAll('input[name="dwelling"]:checked')].map(cb => cb.value),
+        budget: {
+          min: parseInt(document.getElementById('budgetMin').value),
+          max: parseInt(document.getElementById('budgetMax').value),
+          minLabel: selText('budgetMin'),
+          maxLabel: selText('budgetMax')
+        },
+        beds:     document.getElementById('beds').value,
+        baths:    document.getElementById('baths').value,
+        kitchens: document.getElementById('kitchens').value,
+        interiorSqft: {
+          min: sqftMinV === '5001' ? '5,000+' : parseInt(sqftMinV),
+          max: sqftMaxV === '5001' ? '5,000+' : parseInt(sqftMaxV)
+        },
+        yearBuilt: {
+          min: parseInt(document.getElementById('yearMin').value),
+          max: parseInt(document.getElementById('yearMax').value)
+        }
+      };
+
+      if (isDetached) {
+        payload.lotSize = {
+          min: lotMinV === 'ANY' ? 'ANY' : (lotMinV === '10001' ? '10,000+' : parseInt(lotMinV)),
+          max: lotMaxV === 'ANY' ? 'ANY' : (lotMaxV === '10001' ? '10,000+' : parseInt(lotMaxV))
+        };
+      }
+
+      if (isStrata) {
+        const feesV = document.getElementById('strataFees').value;
+        payload.includedParking      = document.getElementById('parking').value;
+        payload.maxMonthlyStrataFees = feesV === 'ANY' ? 'ANY' : (feesV === '2001' ? '$2,000+' : '$' + parseInt(feesV) + '/mo');
+        payload.petRestrictions      = selText('petRestrictions');
+      }
+
+      // Target Neighbourhood
+      const searchType = document.getElementById('searchType').value;
+      if (searchType === 'entire_areas') {
+        payload.targetNeighbourhood = {
+          searchType: 'entire_areas',
+          selectedAreas: [...document.querySelectorAll('input[name="area"]:checked')].map(cb => cb.value)
+        };
+      } else if (searchType === 'select_neighbourhoods') {
+        const byArea = {};
+        document.querySelectorAll('input[name="neighbourhood"]:checked').forEach(function (cb) {
+          const area = cb.getAttribute('data-area');
+          if (!byArea[area]) byArea[area] = [];
+          byArea[area].push(cb.value);
+        });
+        payload.targetNeighbourhood = {
+          searchType: 'select_neighbourhoods',
+          neighbourhoods: byArea
+        };
+      } else if (searchType === 'custom_boundaries') {
+        const bArea = document.getElementById('boundaryAreaSelect');
+        payload.targetNeighbourhood = {
+          searchType: 'custom_boundaries',
+          area: bArea.options[bArea.selectedIndex].text || '',
+          boundaries: document.getElementById('streetBoundaries').value.trim()
+        };
+      }
+
+      return payload;
+    }
+
+    // \u2500\u2500 Neighbourhood PDF Data \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    const AREA_GROUPS = {
+      'Greater Vancouver': [
+        'Burnaby North', 'Burnaby East', 'Burnaby South', 'Coquitlam',
+        'Ladner', 'Maple Ridge', 'New Westminster', 'North Vancouver',
+        'Pitt Meadows', 'Port Coquitlam', 'Port Moody', 'Richmond',
+        'Tsawwassen', 'Vancouver East', 'Vancouver West', 'West Vancouver'
+      ],
+      'Fraser Valley': [
+        'Abbotsford', 'Cloverdale', 'Langley', 'Mission',
+        'North Delta', 'North Surrey', 'South Surrey / White Rock', 'Surrey'
+      ]
+    };
+
+    const AREA_PDFS = {
+      'Burnaby North':             'Compressed%20Maps/Area_BBY_NW_PNG.png',
+      'Burnaby East':              'Compressed%20Maps/Area_BBY_NW_PNG.png',
+      'Burnaby South':             'Compressed%20Maps/Area_BBY_NW_PNG.png',
+      'Coquitlam':                 'Compressed%20Maps/Area_COQ_POCO_PNG.png',
+      'Ladner':                    'Compressed%20Maps/Area_LADNER_TSAW_PNG.png',
+      'Maple Ridge':               'Compressed%20Maps/Area_PITT_MR_PNG.png',
+      'New Westminster':           'Compressed%20Maps/Area_BBY_NW_PNG.png',
+      'North Vancouver':           'Compressed%20Maps/Area_VanN_PNG.png',
+      'Pitt Meadows':              'Compressed%20Maps/Area_PITT_MR_PNG.png',
+      'Port Coquitlam':            'Compressed%20Maps/Area_COQ_POCO_PNG.png',
+      'Port Moody':                'Compressed%20Maps/Area_PtMOODY_PNG.png',
+      'Richmond':                  'Compressed%20Maps/Area_Richmond_PNG.png',
+      'Tsawwassen':                'Compressed%20Maps/Area_LADNER_TSAW_PNG.png',
+      'Vancouver East':            'Compressed%20Maps/Area_VanE_PNG.png',
+      'Vancouver West':            'Compressed%20Maps/Area_VanW_PNG.png',
+      'West Vancouver':            'Compressed%20Maps/Area_WVan_PNG.png',
+      'Abbotsford':                'Compressed%20Maps/Area_Abbotsford_PNG.png',
+      'Cloverdale':                'Compressed%20Maps/Area_Surrey_PNG.png',
+      'Langley':                   'Compressed%20Maps/Area_LANGLEY_PNG.png',
+      'Mission':                   'Compressed%20Maps/Area_Mission_PNG.png',
+      'North Delta':               'Compressed%20Maps/Area_Surrey_PNG.png',
+      'North Surrey':              'Compressed%20Maps/Area_Surrey_PNG.png',
+      'South Surrey / White Rock': 'Compressed%20Maps/Area_Surrey_PNG.png',
+      'Surrey':                    'Compressed%20Maps/Area_Surrey_PNG.png',
+    };
+
+    const NEIGHBOURHOOD_GROUPS = {
+      'Burnaby North':    ['Brentwood Park','Capitol Hill','Dundonald','Hastings Sunrise','Lochdale','Montecito','Parkcrest','Sperling-Duthie','Suncrest','Vancouver Heights','Willingdon Heights'],
+      'Burnaby East':     ['Big Bend','Central Park','Deer Lake','East Burnaby','Edmonds','Highgate','Metrotown','South Slope','Stride Hill','Upper Deer Lake'],
+      'Burnaby South':    ['Deer Lake Park','Forest Hills','Garden Village','Greentree Village','Marlborough','Oaklands','South Burnaby','Sun Valley'],
+      'Coquitlam':        ['Austin Heights','Birchland Manor','Blue Mountain','Canyon Springs','Central Coquitlam','College Park','Harbour Chines','Hockaday','Lincoln Park','Maillardville','Meadowbrook','New Horizons','Partington Creek','Ranch Park','River Heights','Scott Creek','Summit View','Westwood Plateau'],
+      'Ladner':           ['Delsom Village','Harris Heights','Holly','Ladner Downtown','Nordel','River Road'],
+      'Maple Ridge':      ['Albion','Cottonwood','East Central','Haney','Hammond','Silver Valley','Southwest Maple Ridge','Webster\'s Corners','West Central'],
+      'New Westminster':  ['Brow of the Hill','Connaught Heights','Downtown','Fraserview NW','Glenbrooke North','Glenbrooke South','Kelvin','Massey Heights','Moody Park','Queensborough','Quay','Sapperton','The Heights'],
+      'North Vancouver':  ['Boulevard','Braemar','Brooksbank','Calverhall','Canyon Heights','Capilano NV','Central Lonsdale','Deep Cove','Delbrook','Edgemont','Grouse Woods','Harbourside','Lynn Valley','Lynnmour','Mosquito Creek','Norgate','North Lonsdale','Pemberton Heights','Queensbury','Roche Point','Seymour NV','Tempe','Upper Lonsdale','Westview','Windsor Park'],
+      'Pitt Meadows':     ['Central Meadows','North Meadows','South Meadows'],
+      'Port Coquitlam':   ['Birchland Manor','Citadel','Glenwood','Lower Mary Hill','Mary Hill','Riverwood','Southwest PoCo','Upper Mary Hill','Woodland Acres'],
+      'Port Moody':       ['Anmore','Barber Street','Belcarra','College Park PM','Glenayre','Heritage Mountain','Heritage Woods','Ioco','Mountain Meadows','Port Moody Centre'],
+      'Richmond':         ['Broadmoor','Burkeville','East Cambie','East Richmond','Garden City','Gilmore','Granville','Hamilton','McLennan','McLennan North','Quilchena RI','Sea Island','Seafair','South Arm','Terra Nova','Thompson','West Cambie','Westwind','Woodwards'],
+      'Tsawwassen':       ['Beach Grove','Cliff Drive','Pebble Hill','Tsawwassen Central','Tsawwassen East','Tsawwassen North','Tsawwassen South','Wellington'],
+      'Vancouver East':   ['Collingwood VE','Fraserview VE','Grandview-Woodland','Hastings','Hastings-Sunrise','Killarney','Knight','Mount Pleasant VE','Renfrew Heights','Renfrew-Collingwood','Strathcona','Victoria-Fraserview'],
+      'Vancouver West':   ['Arbutus','Cambie','Coal Harbour','Downtown VW','Dunbar','Fairview','False Creek','Kerrisdale','Kitsilano','Marpole','Mount Pleasant VW','Oakridge','Point Grey','Shaughnessy','South Cambie','South Granville','University'],
+      'West Vancouver':   ['Altamont','Ambleside','Bayridge','British Properties','Caulfeild','Cedardale','Chartwell','Cypress Park Estates','Dundarave','Eagle Harbour','Gleneagles','Horseshoe Bay','Lions Bay','Olde Caulfeild','Panorama Village','Queens','Rockridge','Sandy Cove','Sentinel Hill','West Bay'],
+      'Abbotsford':       ['Aberdeen','Bradner','Central Abbotsford','Clifford','Clearbrook','Glen Mountain','McKinley Heights','Mill Lake','Otter District','Poplar','Sandy Hill','Sumas Mountain','West Abbotsford'],
+      'Cloverdale':       ['Clayton','Cloverdale','Tynehead'],
+      'Langley':          ['Aldergrove','Brookswood','Fort Langley','Langley City','Murrayville','Nicomekl','Salmon River','Walnut Grove','Willoughby Heights'],
+      'Mission':          ['Durieu','Hatzic','Mission BC','Mission Village','Stave Falls'],
+      'North Delta':      ['Annieville','Nordel','Scottsdale','Sunbury','Tillicum'],
+      'North Surrey':     ['City Centre','Fleetwood Tynehead','Guildford','Newton','Whalley'],
+      'South Surrey / White Rock': ['Crescent Beach','East White Rock','Elgin Chantrell','Grandview Heights','Hazelmere','King George Corridor','Morgan Creek','Ocean Park','Pacific Douglas','Rosemary Heights','Sunnyside Park Surrey','White Rock'],
+      'Surrey':           ['Bear Creek Green Timbers','Bolivar Heights','Bridgeview','Clayton Heights','East Newton','Fraser Heights','Newton','Panorama Ridge','Port Kells','Sullivan Station']
+    };
+
+    (function () {
+      const allAreas = Object.keys(AREA_PDFS);
+      ['boundaryAreaSelect'].forEach(function (id) {
+        const sel = document.getElementById(id);
+        allAreas.forEach(function (name) {
+          const o = document.createElement('option');
+          o.value = AREA_PDFS[name]; o.textContent = name;
+          sel.appendChild(o);
+        });
+      });
+      const g = document.getElementById('areaCheckboxGroup');
+      Object.entries(AREA_GROUPS).forEach(function ([groupName, groupAreas]) {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'area-group';
+        const heading = document.createElement('p');
+        heading.className = 'area-group-heading';
+        heading.textContent = groupName;
+        groupDiv.appendChild(heading);
+        const pillsDiv = document.createElement('div');
+        pillsDiv.className = 'checkbox-group';
+        groupAreas.forEach(function (name) {
+          const lbl = document.createElement('label');
+          lbl.className = 'checkbox-pill';
+          const cb = document.createElement('input');
+          cb.type = 'checkbox'; cb.name = 'area'; cb.value = name;
+          const sp = document.createElement('span'); sp.textContent = name;
+          lbl.appendChild(cb); lbl.appendChild(sp); pillsDiv.appendChild(lbl);
+        });
+        groupDiv.appendChild(pillsDiv);
+        g.appendChild(groupDiv);
+      });
+    })();
+
+    // ── Render Panel B neighbourhood checkboxes ──────────────
+    (function () {
+      const g = document.getElementById('nbhdCheckboxGroup');
+      Object.entries(AREA_GROUPS).forEach(function ([regionName, regionAreas]) {
+        const regionDiv = document.createElement('div');
+        regionDiv.className = 'area-group';
+        const regionHeading = document.createElement('p');
+        regionHeading.className = 'area-group-heading';
+        regionHeading.textContent = regionName;
+        regionDiv.appendChild(regionHeading);
+
+        regionAreas.forEach(function (areaName) {
+          const nbhds = NEIGHBOURHOOD_GROUPS[areaName];
+          if (!nbhds || nbhds.length === 0) return;
+
+          const areaBlock = document.createElement('div');
+          areaBlock.className = 'nbhd-area-block';
+          areaBlock.setAttribute('data-area', areaName);
+
+          const areaHeader = document.createElement('div');
+          areaHeader.className = 'nbhd-area-heading';
+          const areaTitle = document.createElement('span');
+          areaTitle.className = 'label-highlight';
+          areaTitle.textContent = areaName;
+          const mapBtn = document.createElement('button');
+          mapBtn.type = 'button';
+          mapBtn.className = 'nbhd-map-btn';
+          mapBtn.textContent = 'View Map';
+          const mapHint = document.createElement('span');
+          mapHint.className = 'map-hint-text';
+          mapHint.textContent = '- click to view all the street boundaries of ' + areaName + ' before selecting';
+          areaHeader.appendChild(areaTitle);
+          areaHeader.appendChild(mapBtn);
+          areaHeader.appendChild(mapHint);
+          areaBlock.appendChild(areaHeader);
+
+          const pdfContainer = document.createElement('div');
+          pdfContainer.className = 'nbhd-pdf-container';
+          pdfContainer.style.display = 'none';
+          const embed = document.createElement('img');
+          embed.alt = 'Area map';
+          pdfContainer.appendChild(embed);
+          areaBlock.appendChild(pdfContainer);
+
+          mapBtn.addEventListener('click', function () {
+            if (pdfContainer.style.display === 'none') {
+              embed.setAttribute('src', AREA_PDFS[areaName]);
+              pdfContainer.style.display = 'block';
+              mapBtn.textContent = 'Hide Map';
+            } else {
+              pdfContainer.style.display = 'none';
+              embed.setAttribute('src', '');
+              mapBtn.textContent = 'View Map';
+            }
+          });
+
+          const pillsDiv = document.createElement('div');
+          pillsDiv.className = 'checkbox-group';
+          nbhds.forEach(function (nbhd) {
+            const lbl = document.createElement('label');
+            lbl.className = 'checkbox-pill';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.name = 'neighbourhood'; cb.value = nbhd;
+            cb.setAttribute('data-area', areaName);
+            const sp = document.createElement('span'); sp.textContent = nbhd;
+            lbl.appendChild(cb); lbl.appendChild(sp); pillsDiv.appendChild(lbl);
+          });
+          areaBlock.appendChild(pillsDiv);
+
+          // Select ALL button
+          const selectAllBtn = document.createElement('button');
+          selectAllBtn.type = 'button';
+          selectAllBtn.className = 'btn-select-all';
+          selectAllBtn.textContent = 'Select ALL ' + areaName + ' sub-communities';
+          selectAllBtn.addEventListener('click', function () {
+            const allChecked = [...pillsDiv.querySelectorAll('input[type="checkbox"]')].every(cb => cb.checked);
+            pillsDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = !allChecked; });
+            selectAllBtn.textContent = allChecked ? 'Select ALL ' + areaName + ' sub-communities' : 'Deselect ALL ' + areaName + ' sub-communities';
+            areaErrorSpan.textContent = '';
+          });
+          areaBlock.appendChild(selectAllBtn);
+
+          // Error span for this area block
+          const areaErrorSpan = document.createElement('span');
+          areaErrorSpan.className = 'error-text';
+          areaErrorSpan.setAttribute('data-area-error', areaName);
+          areaBlock.appendChild(areaErrorSpan);
+
+          regionDiv.appendChild(areaBlock);
+        });
+        g.appendChild(regionDiv);
+      });
+    })();
+
+    // â”€â”€ Map region <-> checkbox bidirectional sync â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    document.querySelectorAll('.area-region').forEach(function (region) {
+      region.addEventListener('click', function () {
+        var areaName = this.getAttribute('data-area');
+        var cb = document.querySelector('input[name="area"][value="' + areaName + '"]');
+        if (!cb) return;
+        cb.checked = !cb.checked;
+        this.classList.toggle('selected', cb.checked);
+        updateNbhdGroups();
+      });
+    });
+
+    document.querySelectorAll('input[name="area"]').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var region = document.querySelector('.area-region[data-area="' + this.value + '"]');
+        if (region) region.classList.toggle('selected', this.checked);
+        updateNbhdGroups();
+      });
+    });
+
+    function updateNbhdGroups() {
+      if (document.getElementById('searchType').value !== 'select_neighbourhoods') return;
+      var checkedAreas = new Set([...document.querySelectorAll('input[name="area"]:checked')].map(function (cb) { return cb.value; }));
+      document.querySelectorAll('#nbhdCheckboxGroup .nbhd-area-block').forEach(function (block) {
+        block.classList.toggle('visible', checkedAreas.has(block.getAttribute('data-area')));
+      });
+      document.querySelectorAll('#nbhdCheckboxGroup .area-group').forEach(function (grp) {
+        grp.classList.toggle('visible', !!grp.querySelector('.nbhd-area-block.visible'));
+      });
+    }
+
+    document.getElementById("searchType").addEventListener("change", function () {
+      document.querySelectorAll(".nbhd-panel").forEach(function (p) { p.classList.remove("visible"); });
+      const m = { entire_areas: "panelEntireAreas", select_neighbourhoods: "panelSelectNbhd", custom_boundaries: "panelCustomBoundary" };
+      if (m[this.value]) document.getElementById(m[this.value]).classList.add("visible");
+      const showShared = this.value === 'entire_areas' || this.value === 'select_neighbourhoods';
+      document.getElementById('areaSelectionShared').style.display = showShared ? 'block' : 'none';
+      document.getElementById('clearSearchBtn').style.display = this.value ? 'inline-block' : 'none';
+      const isSemiCustom = this.value === 'select_neighbourhoods';
+      document.getElementById('areaMapNote').innerHTML = isSemiCustom
+        ? '<strong>STEP 1 - SELECT NEIGHBOURHOOD</strong> - Click a neighbourhood region on the map to select it, or use the checkboxes below.'
+        : 'Click a neighbourhood region on the map to select it, or use the checkboxes below.';
+      if (isSemiCustom) updateNbhdGroups();
+    });
+
+    document.getElementById("clearSearchBtn").addEventListener("click", function () {
+      // Reset search type dropdown and hide panels
+      const st = document.getElementById('searchType');
+      st.value = '';
+      document.querySelectorAll(".nbhd-panel").forEach(function (p) { p.classList.remove("visible"); });
+      document.getElementById('areaSelectionShared').style.display = 'none';
+      document.getElementById('clearSearchBtn').style.display = 'none';
+      // Uncheck all area checkboxes and clear map highlights
+      document.querySelectorAll('input[name="area"]').forEach(function (cb) { cb.checked = false; });
+      document.querySelectorAll('.area-region.selected').forEach(function (r) { r.classList.remove('selected'); });
+      // Uncheck all neighbourhood checkboxes and hide groups
+      document.querySelectorAll('input[name="neighbourhood"]').forEach(function (cb) { cb.checked = false; });
+      document.querySelectorAll('#nbhdCheckboxGroup .nbhd-area-block, #nbhdCheckboxGroup .area-group').forEach(function (el) { el.classList.remove('visible'); });
+      // Reset Panel C fields
+      const bSel = document.getElementById('boundaryAreaSelect');
+      if (bSel) { bSel.value = ''; bSel.dispatchEvent(new Event('change')); }
+      const sBounds = document.getElementById('streetBoundaries');
+      if (sBounds) sBounds.value = '';
+    });
+
+    document.getElementById("boundaryAreaSelect").addEventListener("change", function () {
+      const v = document.getElementById("boundaryPdfViewer");
+      const e = document.getElementById("boundaryPdfEmbed");
+      if (this.value) { e.setAttribute("src", this.value); v.style.display = "block"; }
+      else { v.style.display = "none"; e.setAttribute("src", ""); }
+    });
+
+    // ── Phone number live formatter ──────────────────────────
+    document.getElementById('contactNumber').addEventListener('input', function () {
+      const digits = this.value.replace(/\D/g, '').slice(0, 10);
+      let formatted = '';
+      if (digits.length === 0) {
+        formatted = '';
+      } else if (digits.length <= 3) {
+        formatted = '(' + digits;
+      } else if (digits.length <= 6) {
+        formatted = '(' + digits.slice(0, 3) + ') ' + digits.slice(3);
+      } else {
+        formatted = '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
+      }
+      this.value = formatted;
+    });
+
+    // ── Submit Handler ───────────────────────────────────────
+    document.getElementById('buyerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearAll();
+      document.getElementById('successBanner').classList.remove('visible');
+
+      if (!validate()) {
+        const first = document.querySelector('.is-invalid');
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const payload = buildPayload();
+      console.log('Buyer Search Criteria:', payload);
+
+      const tn = payload.targetNeighbourhood || {};
+      const flat = {
+        timestamp:              new Date().toLocaleString(),
+        firstName:              payload.personalInfo.firstName,
+        lastName:               payload.personalInfo.lastName,
+        email:                  payload.personalInfo.email,
+        contactNumber:          payload.personalInfo.contactNumber,
+        dwellingTypes:          payload.dwellingTypes,
+        budgetMin:              payload.budget.minLabel,
+        budgetMax:              payload.budget.maxLabel,
+        beds:                   payload.beds,
+        baths:                  payload.baths,
+        kitchens:               payload.kitchens,
+        sqftMin:                payload.interiorSqft.min,
+        sqftMax:                payload.interiorSqft.max,
+        yearBuiltMin:           payload.yearBuilt.min,
+        yearBuiltMax:           payload.yearBuilt.max,
+        lotSizeMin:             payload.lotSize ? payload.lotSize.min : '',
+        lotSizeMax:             payload.lotSize ? payload.lotSize.max : '',
+        includedParking:        payload.includedParking || '',
+        maxMonthlyStrataFees:   payload.maxMonthlyStrataFees || '',
+        petRestrictions:        payload.petRestrictions || '',
+        searchType:             tn.searchType || '',
+        selectedAreas:          tn.selectedAreas || [],
+        selectedNeighbourhoods: tn.neighbourhoods ? Object.entries(tn.neighbourhoods).map(([a,ns]) => a + ': ' + ns.join(', ')).join(' | ') : '',
+        customBoundary:         tn.boundaries || ''
+      };
+
+      const banner = document.getElementById('successBanner');
+      const firstName = payload.personalInfo.firstName;
+      document.getElementById('successMsg').textContent =
+        'Thank you ' + firstName + ' for submitting your search criteria! We\'ll be in touch via email shortly to complete your filtered search!';
+      fetch('https://script.google.com/macros/s/AKfycbxumqiPpRIpcHay28VZI8gm4ODgszE7Wp3YftJ-8QppmCfW0ApG2cmrxOGZ6R5r5dfZqg/exec', {
+        method: 'POST',
+        body: JSON.stringify(flat)
+      })
+      .then(function () {
+        banner.classList.add('visible');
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      })
+      .catch(function () {
+        banner.classList.add('visible');
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        console.warn('Submission may not have reached Google Sheets — check network.');
+      });
+    });
+  </script>
+
+  <!-- Map Zoom Modal -->
+  <div id="mapZoomModal">
+    <button id="mapZoomClose" title="Close">&times;</button>
+    <div id="mapZoomViewport">
+      <img id="mapZoomImg" src="" alt="Area map">
+    </div>
+    <p id="mapZoomHint">Scroll to zoom &nbsp;·&nbsp; Click &amp; drag to pan &nbsp;·&nbsp; Press Esc to close</p>
+  </div>
+
+  <script>
+    (function () {
+      var modal     = document.getElementById('mapZoomModal');
+      var viewport  = document.getElementById('mapZoomViewport');
+      var zoomImg   = document.getElementById('mapZoomImg');
+      var closeBtn  = document.getElementById('mapZoomClose');
+
+      var scale = 1, tx = 0, ty = 0;
+      var dragging = false, startX = 0, startY = 0, startTx = 0, startTy = 0;
+
+      function applyTransform() {
+        zoomImg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+      }
+
+      function clampTranslate() {
+        var iw = zoomImg.naturalWidth  * scale;
+        var ih = zoomImg.naturalHeight * scale;
+        var vw = viewport.clientWidth;
+        var vh = viewport.clientHeight;
+        // Center when image fits; constrain to edges when larger than viewport
+        tx = iw <= vw ? (vw - iw) / 2 : Math.min(0, Math.max(vw - iw, tx));
+        ty = ih <= vh ? (vh - ih) / 2 : Math.min(0, Math.max(vh - ih, ty));
+      }
+
+      function openModal(src) {
+        zoomImg.src = src;
+        scale = 1; tx = 0; ty = 0;
+        zoomImg.onload = function () {
+          // Fit image to viewport on open
+          var scaleW = viewport.clientWidth  / zoomImg.naturalWidth;
+          var scaleH = viewport.clientHeight / zoomImg.naturalHeight;
+          scale = Math.min(scaleW, scaleH, 1);
+          tx = (viewport.clientWidth  - zoomImg.naturalWidth  * scale) / 2;
+          ty = (viewport.clientHeight - zoomImg.naturalHeight * scale) / 2;
+          applyTransform();
+        };
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        // Reset hint to center, then drop after 1.5s
+        var hint = document.getElementById('mapZoomHint');
+        hint.classList.remove('dropped');
+        clearTimeout(hint._dropTimer);
+        hint._dropTimer = setTimeout(function () {
+          hint.classList.add('dropped');
+        }, 1500);
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        zoomImg.src = '';
+      }
+
+      // Open on any map image click (event delegation)
+      document.addEventListener('click', function (e) {
+        var img = e.target.closest('.nbhd-pdf-container img, .pdf-viewer-container img');
+        if (img && img.src) openModal(img.src);
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      // Scroll to zoom
+      viewport.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        var rect   = viewport.getBoundingClientRect();
+        var mouseX = e.clientX - rect.left;
+        var mouseY = e.clientY - rect.top;
+        var delta  = e.deltaY > 0 ? 0.9 : 1.1;
+        var newScale = Math.min(8, Math.max(0.2, scale * delta));
+        // Zoom toward mouse position
+        tx = mouseX - (mouseX - tx) * (newScale / scale);
+        ty = mouseY - (mouseY - ty) * (newScale / scale);
+        scale = newScale;
+        clampTranslate();
+        applyTransform();
+      }, { passive: false });
+
+      // Drag to pan
+      viewport.addEventListener('mousedown', function (e) {
+        dragging = true; startX = e.clientX; startY = e.clientY;
+        startTx = tx; startTy = ty;
+        viewport.classList.add('dragging');
+      });
+      document.addEventListener('mousemove', function (e) {
+        if (!dragging) return;
+        tx = startTx + (e.clientX - startX);
+        ty = startTy + (e.clientY - startY);
+        clampTranslate();
+        applyTransform();
+      });
+      document.addEventListener('mouseup', function () {
+        dragging = false;
+        viewport.classList.remove('dragging');
+      });
+
+      // Touch: drag and pinch-zoom
+      var lastTouchDist = null;
+      var touchStartTx = 0, touchStartTy = 0, touchStartX = 0, touchStartY = 0;
+      viewport.addEventListener('touchstart', function (e) {
+        if (e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+          touchStartTx = tx; touchStartTy = ty; lastTouchDist = null;
+        } else if (e.touches.length === 2) {
+          lastTouchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+        }
+      }, { passive: true });
+      viewport.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+        if (e.touches.length === 1 && lastTouchDist === null) {
+          tx = touchStartTx + (e.touches[0].clientX - touchStartX);
+          ty = touchStartTy + (e.touches[0].clientY - touchStartY);
+          clampTranslate();
+          applyTransform();
+        } else if (e.touches.length === 2) {
+          var dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          if (lastTouchDist) {
+            var delta = dist / lastTouchDist;
+            scale = Math.min(8, Math.max(0.2, scale * delta));
+            clampTranslate();
+            applyTransform();
+          }
+          lastTouchDist = dist;
+        }
+      }, { passive: false });
+      viewport.addEventListener('touchend', function () { lastTouchDist = null; }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
