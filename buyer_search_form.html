@@ -461,18 +461,26 @@
     }
     #mapZoomClose {
       position: fixed;
-      top: 0.875rem;
-      right: 1.25rem;
-      font-size: 2.25rem;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 1.75rem;
       line-height: 1;
       color: #fff;
-      background: none;
-      border: none;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      z-index: 10000;
-      opacity: 0.8;
+      z-index: 99999;
+      touch-action: manipulation;
+      pointer-events: all;
+      -webkit-tap-highlight-color: transparent;
     }
-    #mapZoomClose:hover { opacity: 1; }
+    #mapZoomClose:hover, #mapZoomClose:active { background: rgba(220,38,38,0.85); border-color: #fff; }
     #mapZoomHint {
       position: fixed;
       left: 50%;
