@@ -1,0 +1,5 @@
+# Ignore temporary workbench files
+.tmp/
+
+# Environment secrets
+.env
