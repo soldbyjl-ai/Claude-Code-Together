@@ -3,3 +3,17 @@
 
 # Environment secrets
 .env
+
+# Playwright / scraper outputs and saved sessions
+tools/output/
+tools/browser_profile/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Excel lock file
+~$*.xlsx
