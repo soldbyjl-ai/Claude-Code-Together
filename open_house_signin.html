@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open House Sign-In</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=gilroy@700,800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    /* Full-bleed background photo, untinted.
+       Swap 'bg001.jpg' for a real listing photo any time. */
+    background-color: #0f172a;
+    background-image: url('bg001.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding: 3rem 1rem 2.5rem;
+  }
+
+  .content-col {
+    max-width: 660px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.75);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    padding: 2.5rem 2rem 2.25rem;
+  }
+
+  .brand { text-align: center; }
+  .brand .hero-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .brand .hero-photo {
+    width: 107px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .brand .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    gap: 0.5rem;
+  }
+  .brand .agency {
+    display: inline-block;
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #bfdbfe;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid rgba(191,219,254,0.35);
+    border-radius: 999px;
+  }
+  .brand h1 {
+    font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+  }
+  .brand .listing-address {
+    font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: #bfdbfe;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+  }
+  .brand .accent-rule {
+    width: 60px;
+    height: 2px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 999px;
+    margin: 1.1rem 0;
+  }
+  .brand .subheading {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+  }
+  .brand .header-divider {
+    margin-top: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .form-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+  }
+  .form-section:last-of-type { border-bottom: none; padding-bottom: 0; }
+
+  .section-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.1rem;
+  }
+
+  .form-row { margin-bottom: 1.1rem; }
+  .form-row:last-child { margin-bottom: 0; }
+
+  .row-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    align-items: start;
+  }
+  .row-pair .form-row { margin-bottom: 0; }
+
+  .form-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+  .form-label .req { color: #fca5a5; margin-left: 0.15rem; }
+  .form-label .opt {
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 0.3rem;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #0f172a;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input::placeholder, textarea::placeholder { color: #94a3b8; }
+  input:focus, select:focus, textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96,165,250,0.35);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  .is-invalid { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.25) !important; }
+  .error-msg {
+    display: none;
+    font-size: 0.78rem;
+    color: #fca5a5;
+    margin-top: 0.35rem;
+  }
+  .error-msg.visible { display: block; }
+
+  .radio-group, .checkbox-group {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .radio-group.is-invalid {
+    border: 1px solid #fca5a5 !important;
+    background: rgba(220,38,38,0.14);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    margin: -0.5rem -0.7rem 0;
+    width: fit-content;
+  }
+  .radio-option, .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.92rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  .radio-option input, .checkbox-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: #60a5fa;
+    cursor: pointer;
+  }
+
+  #agentNameRow { display: none; margin-top: 0.85rem; }
+
+  .consent-box {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+  }
+  .consent-box input {
+    margin-top: 0.2rem;
+    width: 17px;
+    height: 17px;
+    accent-color: #60a5fa;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .consent-box label {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.88);
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #1d4ed8;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .submit-btn:hover { background: #1e40af; }
+  .submit-btn:active { transform: translateY(1px); }
+
+  .footer-signature {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1.25rem auto 0;
+  }
+
+  .success-banner {
+    display: none;
+    margin-top: 0.5rem;
+    background: rgba(6,95,70,0.35);
+    border: 1px solid rgba(167,243,208,0.5);
+    color: #d1fae5;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  .success-banner.visible { display: block; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+  <div class="content-col">
+
+    <div class="brand">
+      <div class="hero-row">
+        <img class="hero-photo" src="REHS001L.jpg" alt="Jeff Lam">
+        <div class="hero-text">
+          <div class="agency">Jeff Lam *PREC &middot; Sutton Group West Coast Realty</div>
+          <h1>Open House Sign-In</h1>
+          <p class="listing-address" id="listingAddressLine" style="display:none;"></p>
+          <div class="accent-rule"></div>
+          <p class="subheading">Welcome! Please sign in for the Open House!</p>
+        </div>
+      </div>
+      <div class="header-divider"></div>
+    </div>
+
+    <form id="signInForm" novalidate>
+
+      <div class="form-section" id="listingPickerSection" style="display:none;">
+        <div class="section-title">Which property are you visiting?</div>
+        <div class="form-row">
+          <select id="listingPicker">
+            <option value="">Select a property&hellip;</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">Your Information</div>
+        <div class="form-row row-pair">
+          <div>
+            <label class="form-label" for="firstName">First Name<span class="req">*</span></label>
+            <input type="text" id="firstName" autocomplete="given-name">
+            <div class="error-msg">Please enter your first name.</div>
+          </div>
+          <div>
+            <label class="form-label" for="lastName">Last Name<span class="req">*</span></label>
+            <input type="text" id="lastName" autocomplete="family-name">
+            <div class="error-msg">Please enter your last name.</div>
+          </div>
+        </div>
+        <div class="form-row row-pair" style="margin-top:1.1rem;">
+          <div>
+            <label class="form-label" for="email">Email<span class="req">*</span></label>
+            <input type="email" id="email" autocomplete="email">
+            <div class="error-msg">Please enter a valid email.</div>
+          </div>
+          <div>
+            <label class="form-label" for="phone">Phone<span class="req">*</span></label>
+            <input type="tel" id="phone" inputmode="tel" autocomplete="tel" maxlength="14" placeholder="(604) 555-1234">
+            <div class="error-msg">Please enter a valid 10-digit phone number.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">A Little About You</div>
+
+        <div class="form-row">
+          <label class="form-label">Are you currently working with a REALTOR&reg;?<span class="req">*</span></label>
+          <div class="radio-group" id="workingWithAgentGroup">
+            <label class="radio-option"><input type="radio" name="workingWithAgent" value="Yes"> Yes</label>
+            <label class="radio-option"><input type="radio" name="workingWithAgent" value="No"> No</label>
+          </div>
+          <div class="error-msg" id="workingWithAgentError">Please select an option.</div>
+          <div id="agentNameRow">
+            <label class="form-label" for="agentName">Their Name</label>
+            <input type="text" id="agentName">
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-top:1.1rem;">
+          <label class="form-label" for="timeline">When are you hoping to make a move?<span class="opt">(optional)</span></label>
+          <select id="timeline">
+            <option value="">Select one&hellip;</option>
+            <option>Just looking</option>
+            <option>0-3 months</option>
+            <option>3-6 months</option>
+            <option>6-12 months</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="form-row" style="margin-top:1.1rem;">
+          <label class="form-label">I'm interested in&hellip;<span class="opt">(optional)</span></label>
+          <div class="checkbox-group">
+            <label class="checkbox-option"><input type="checkbox" name="interestedIn" value="Buying"> Buying</label>
+            <label class="checkbox-option"><input type="checkbox" name="interestedIn" value="Selling"> Selling</label>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-top:1.1rem;">
+          <label class="form-label" for="comments">Anything else you'd like us to know?<span class="opt">(optional)</span></label>
+          <textarea id="comments"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="consent-box">
+          <input type="checkbox" id="consent" required>
+          <label for="consent">
+            By checking off this box and submitting your information you are agreeing to the Terms of Service and Privacy policy of this landing page, and are opting in to receive communications through email, SMS text messaging, and other electronic communications. This is not intended to solicit properties already listed for sale nor intended to cause a breach of an existing agency relationship.<span class="req">*</span>
+          </label>
+        </div>
+        <div class="error-msg" id="consentError">Please check the box to continue.</div>
+        <button type="submit" class="submit-btn" style="margin-top:1.1rem;">Sign In</button>
+        <img class="footer-signature" src="Featuresheet_Footer03_Trans.png" alt="Jeff Lam, GVRD Properties, Sutton Group West Coast Realty">
+      </div>
+
+    </form>
+
+    <div class="success-banner" id="successBanner">
+      Thanks for signing in — enjoy the open house! Keep an eye on your inbox for details about this property.
+    </div>
+
+  </div>
+
+<script>
+  // ── Configuration ──────────────────────────────────────────
+  // Paste the Apps Script Web App /exec URL here after deploying (see SETUP_GUIDE.md).
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzrkKDs-Gw_d4Y0XwRmTWpeLUmaMOGABpFxUAu9Nbuv5HRpn_KHi1oX7FsvmSVUrbqjg/exec';
+
+  var params = new URLSearchParams(window.location.search);
+  var listingCode = params.get('listing') || '';
+  var resolvedListing = null;
+
+  // ── Resolve listing (from URL code, or show a picker) ─────
+  function initListing() {
+    if (!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0) return;
+
+    var url = SCRIPT_URL + (listingCode ? '?listing=' + encodeURIComponent(listingCode) : '');
+    fetch(url)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.listing) {
+          resolvedListing = data.listing;
+          updateHeading(data.listing);
+        } else if (data.listings && data.listings.length) {
+          showListingPicker(data.listings);
+        }
+      })
+      .catch(function () {
+        // Network/CORS hiccup — form still works, just without the dynamic heading.
+      });
+  }
+
+  function updateHeading(listing) {
+    var line = document.getElementById('listingAddressLine');
+    line.textContent = listing.address;
+    line.style.display = 'block';
+    syncPhotoHeight();
+  }
+
+  // ── Keep the headshot's natural-aspect height matched to the
+  // text block beside it (pill + heading + address + welcome line),
+  // so it always ends flush with the "Welcome!" text — even as that
+  // text grows/shrinks (address shown/hidden, line wraps, etc).
+  function syncPhotoHeight() {
+    var img = document.querySelector('.hero-photo');
+    var textEl = document.querySelector('.hero-text');
+    var rowEl = document.querySelector('.hero-row');
+    if (!img || !textEl || !rowEl || !img.naturalWidth) return;
+
+    // Clamp so a narrow viewport (where text wraps more, gets taller,
+    // and would otherwise push the photo wider in a runaway loop) can't
+    // make the photo balloon past a sane share of the row's width.
+    var maxWidth = Math.min(160, rowEl.getBoundingClientRect().width * 0.42);
+    var minWidth = 70;
+
+    var aspect = img.naturalHeight / img.naturalWidth;
+    var neededHeight = textEl.getBoundingClientRect().height;
+    var neededWidth = neededHeight / aspect;
+    neededWidth = Math.max(minWidth, Math.min(maxWidth, neededWidth));
+    img.style.width = Math.round(neededWidth) + 'px';
+  }
+
+  var heroPhotoImg = document.querySelector('.hero-photo');
+  if (heroPhotoImg.complete) {
+    syncPhotoHeight();
+  } else {
+    heroPhotoImg.addEventListener('load', syncPhotoHeight);
+  }
+  window.addEventListener('resize', syncPhotoHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncPhotoHeight);
+  }
+
+  function showListingPicker(listings) {
+    var select = document.getElementById('listingPicker');
+    listings.forEach(function (l) {
+      var opt = document.createElement('option');
+      opt.value = l.code;
+      opt.textContent = l.address;
+      select.appendChild(opt);
+    });
+    document.getElementById('listingPickerSection').style.display = 'block';
+    select.addEventListener('change', function () {
+      var match = listings.find(function (l) { return l.code === select.value; });
+      resolvedListing = match || null;
+      listingCode = select.value;
+      if (match) updateHeading(match);
+    });
+  }
+
+  initListing();
+
+  // ── Phone auto-format ──────────────────────────────────────
+  document.getElementById('phone').addEventListener('input', function () {
+    var digits = this.value.replace(/\D/g, '').slice(0, 10);
+    var formatted = digits;
+    if (digits.length > 6) formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6);
+    else if (digits.length > 3) formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3);
+    else if (digits.length > 0) formatted = '(' + digits;
+    this.value = formatted;
+  });
+
+  // ── Conditional agent name field ───────────────────────────
+  document.querySelectorAll('input[name="workingWithAgent"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      document.getElementById('agentNameRow').style.display = this.value === 'Yes' ? 'block' : 'none';
+      document.getElementById('workingWithAgentGroup').classList.remove('is-invalid');
+      document.getElementById('workingWithAgentError').classList.remove('visible');
+    });
+  });
+
+  // ── Validation + submit ─────────────────────────────────────
+  function clearErrors() {
+    document.querySelectorAll('.is-invalid').forEach(function (el) { el.classList.remove('is-invalid'); });
+    document.querySelectorAll('.error-msg').forEach(function (el) { el.classList.remove('visible'); });
+  }
+
+  function markInvalid(input, errorEl) {
+    input.classList.add('is-invalid');
+    if (errorEl) errorEl.classList.add('visible');
+  }
+
+  function validate() {
+    var ok = true;
+    var firstName = document.getElementById('firstName');
+    var lastName = document.getElementById('lastName');
+    var email = document.getElementById('email');
+    var phone = document.getElementById('phone');
+    var consent = document.getElementById('consent');
+
+    if (!firstName.value.trim()) { markInvalid(firstName, firstName.parentElement.querySelector('.error-msg')); ok = false; }
+    if (!lastName.value.trim()) { markInvalid(lastName, lastName.parentElement.querySelector('.error-msg')); ok = false; }
+    if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      markInvalid(email, email.parentElement.querySelector('.error-msg')); ok = false;
+    }
+    if (phone.value.replace(/\D/g, '').length !== 10) {
+      markInvalid(phone, phone.parentElement.querySelector('.error-msg')); ok = false;
+    }
+    if (!document.querySelector('input[name="workingWithAgent"]:checked')) {
+      document.getElementById('workingWithAgentGroup').classList.add('is-invalid');
+      document.getElementById('workingWithAgentError').classList.add('visible');
+      ok = false;
+    }
+    if (!consent.checked) {
+      document.getElementById('consentError').classList.add('visible');
+      ok = false;
+    }
+    return ok;
+  }
+
+  document.getElementById('signInForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    if (!validate()) {
+      var firstInvalid = document.querySelector('.is-invalid');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    var interestedIn = Array.from(document.querySelectorAll('input[name="interestedIn"]:checked'))
+      .map(function (el) { return el.value; }).join(', ');
+    var workingWithAgent = (document.querySelector('input[name="workingWithAgent"]:checked') || {}).value || '';
+
+    var payload = {
+      listingCode: listingCode,
+      listingAddress: resolvedListing ? resolvedListing.address : '',
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      workingWithAgent: workingWithAgent,
+      agentName: document.getElementById('agentName').value.trim(),
+      timeline: document.getElementById('timeline').value,
+      interestedIn: interestedIn,
+      comments: document.getElementById('comments').value.trim(),
+      consent: document.getElementById('consent').checked
+    };
+
+    var form = document.getElementById('signInForm');
+    var banner = document.getElementById('successBanner');
+
+    function showSuccess() {
+      form.classList.add('hidden');
+      banner.classList.add('visible');
+      banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    if (!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0) {
+      console.warn('SCRIPT_URL is not configured yet — see SETUP_GUIDE.md.');
+      showSuccess();
+      return;
+    }
+
+    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+      .then(showSuccess)
+      .catch(function () {
+        showSuccess();
+        console.warn('Submission may not have reached the sheet — check network/deployment.');
+      });
+  });
+</script>
+</body>
+</html>
