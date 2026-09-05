@@ -839,6 +839,14 @@ document.getElementById('nda-form').onsubmit = async function (e) {
     a.click();
     setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
 
+    // Store signed PDF blob URL for re-download
+    window._signedPdfUrl = url;
+    window._signedPdfBlob = blob;
+
+    // Show thank you screen
+    document.querySelector('.card').style.display = 'none';
+    document.getElementById('thank-you-screen').style.display = 'flex';
+
     // ── Log submission to Google Sheet ────────────────────────────────────────
     const SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxDyvcKzpVJ3Rgejix8mSq-swgGG5dTFSfrzu3kf6SKi_PcUxzXo8lB7SnNTOPK21WLxg/exec'; // replace after deploying
     const p1Role = document.getElementById('p1_role_agent').checked ? 'Agent' : 'Buyer';
@@ -883,5 +891,36 @@ document.getElementById('nda-form').onsubmit = async function (e) {
   }
 };
 </script>
+
+<div id="thank-you-screen" style="display:none; position:fixed; inset:0; background:#f0f2f5; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; z-index:9999;">
+  <div style="background:white; border-radius:10px; box-shadow:0 4px 24px rgba(0,0,0,0.12); max-width:520px; width:100%; overflow:hidden; text-align:center;">
+    <div style="background:#1a3c5e; padding:32px 36px;">
+      <div style="font-size:48px; margin-bottom:12px;">✅</div>
+      <h1 style="color:white; font-size:22px; font-weight:600; margin-bottom:6px;">NDA Submitted Successfully</h1>
+      <p style="color:rgba(255,255,255,0.75); font-size:14px;">Thank you for signing the Purchaser's Confidentiality Agreement for<br><strong style="color:white;">935 Denman St</strong></p>
+    </div>
+    <div style="padding:32px 36px;">
+      <p style="color:#444; font-size:14px; margin-bottom:28px;">Your signed copy has been downloaded. You can download it again or sign a new NDA below.</p>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button onclick="
+          const b = window._signedPdfBlob;
+          if (b) {
+            const u = URL.createObjectURL(b);
+            const a = Object.assign(document.createElement('a'), {href:u, download:'935_Denman_NDA_Signed.pdf'});
+            document.body.appendChild(a); a.click();
+            setTimeout(()=>{URL.revokeObjectURL(u); a.remove();}, 1000);
+          }
+        " style="background:#1a3c5e; color:white; border:none; border-radius:6px; padding:14px 24px; font-size:15px; font-weight:600; cursor:pointer;">
+          ⬇ Download Signed Copy
+        </button>
+        <button onclick="location.reload();" style="background:white; color:#1a3c5e; border:2px solid #1a3c5e; border-radius:6px; padding:14px 24px; font-size:15px; font-weight:600; cursor:pointer;">
+          ✍ Sign New NDA
+        </button>
+      </div>
+      <p style="margin-top:28px; font-size:12px; color:#999;">Questions? Contact Jeff Lam · 604.723.4512 · JeffL@sutton.com</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
