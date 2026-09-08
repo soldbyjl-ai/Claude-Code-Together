@@ -869,7 +869,7 @@ document.getElementById('nda-form').onsubmit = async function (e) {
       s2_phone:     s2Touched ? val('a_phone')    : '',
       s2_date:      s2Touched ? fmtDate('a_date') : '',
       property:     '935 Denman St',
-      pdf_base64:   btoa(String.fromCharCode(...new Uint8Array(out))),
+      pdf_base64:   (function(u8){var s='';for(var i=0;i<u8.length;i++)s+=String.fromCharCode(u8[i]);return btoa(s);})(new Uint8Array(out)),
       pdf_filename: '935_Denman_St_NDA_Signed.pdf',
     };
     if (SHEET_WEBHOOK !== 'YOUR_APPS_SCRIPT_WEB_APP_URL') {
