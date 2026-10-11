@@ -1,5 +1,5 @@
 // — Buyer Search Criteria — Google Sheet Logger + Email Notification ——————————
-// Lives in the "Untitled project" Apps Script attached to the buyer criteria sheet.
+// Lives in the "BUYER_DATA" Apps Script attached to the buyer criteria sheet.
 // TO UPDATE:
 //  1. Open the project → replace all code with this file → Save
 //  2. Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy
